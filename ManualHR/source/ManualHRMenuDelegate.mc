@@ -16,7 +16,7 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
         	countMenu.setTitle(title);
         	Ui.pushView(countMenu, new NrCountMenuDelegate(), Ui.SLIDE_LEFT);
         } else if (item == :item_2) {
-            Sys.println("Selected the information page");
+           Ui.pushView(new ManualHRInfoView(), new ManualHRInfoViewDelegate(), Ui.SLIDE_LEFT);
         }
     }
 }
