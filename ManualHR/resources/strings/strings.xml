@@ -1,0 +1,32 @@
+<strings>
+    <string id="AppName">Manual HR</string>
+
+    <string id="prompt1">Press start</string>
+    <string id="prompt2start">and count </string>
+    <string id="prompt2end"> heart beats</string>
+    
+    <string id="prompt1Running">When done</string>
+    <string id="prompt2Running">press stop</string>
+    
+	<string id="MainMenuTitle">Settings</string>
+    <string id="menu_label_1">Beats to count</string>
+    <string id="menu_label_2">Instructions</string>
+    
+    <string id="nrPickerTitle">Number of beats to count</string>
+    <string id="HR_text"> --- bpm</string>
+ 
+    <string id="NrCountMenuTitle">Beats to count</string>
+    <string id="NrCountMenu_5">Count to 5</string>
+    <string id="NrCountMenu_10">Count to 10</string>
+    <string id="NrCountMenu_15">Count to 15</string>
+    <string id="NrCountMenu_20">Count to 20</string>
+    <string id="NrCountMenu_25">Count to 25</string>
+    <string id="NrCountMenu_30">Count to 30</string>
+    <string id="NrCountMenu_35">Count to 35</string>
+    <string id="NrCountMenu_40">Count to 40</string>
+    <string id="NrCountMenu_45">Count to 45</string>
+    <string id="NrCountMenu_50">Count to 50</string>
+    <string id="NrCountMenu_55">Count to 55</string>
+    <string id="NrCountMenu_60">Count to 60</string> 
+    
+</strings>
