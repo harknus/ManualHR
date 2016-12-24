@@ -6,6 +6,8 @@ var startTime_ms;
 var HR_value;
 var HB_count;
 var running;
+var totalTime;
+var duration;
 
 
 class ManualHRView extends Ui.View {
@@ -35,6 +37,19 @@ class ManualHRView extends Ui.View {
     	if(null != HR_value) {
     		var label = View.findDrawableById("HR_label");
     		label.setText(HR_value);
+    		//var bpmLabel = View.findDrawableById("bpmLabel");
+    		//if (running == true) {
+    		//	bpmLabel.setText("beats to count");
+			//} else {
+			//	bpmLabel.setText("bpm");
+			//}
+    	}
+    	if(null != duration && running == false) {
+    		//Display subresults when available
+    		var subResultString1 = View.findDrawableById("ResultLabelTimeBetweenBeats_value");
+    		subResultString1.setText(duration.format("%.2f"));
+    		var subResultString2 = View.findDrawableById("ResultLabelTotalTime_value");
+    		subResultString2.setText(totalTime.format("%.2f"));
     	}
     	
     	var label1 = View.findDrawableById("prompt1");
@@ -43,7 +58,7 @@ class ManualHRView extends Ui.View {
     	var newTxt2;
     	if (running == true) {
     	    newTxt1 = Ui.loadResource(Rez.Strings.prompt1Running);
-    	    newTxt2 = Ui.loadResource(Rez.Strings.prompt2Running);
+    	    newTxt2 = Ui.loadResource(Rez.Strings.prompt2Running) + HB_count.format("%.0d") + Ui.loadResource(Rez.Strings.prompt2end);
     	}
     	else {
     		newTxt1 = Ui.loadResource(Rez.Strings.prompt1);

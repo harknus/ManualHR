@@ -5,15 +5,22 @@
     <string id="prompt2start">and count </string>
     <string id="prompt2end"> heart beats</string>
     
-    <string id="prompt1Running">When done</string>
-    <string id="prompt2Running">press stop</string>
+    <string id="prompt1Running">Press stop</string>
+    <string id="prompt2Running">after </string>
     
 	<string id="MainMenuTitle">Settings</string>
     <string id="menu_label_1">Beats to count</string>
     <string id="menu_label_2">Instructions</string>
     
     <string id="nrPickerTitle">Number of beats to count</string>
-    <string id="HR_text"> --- bpm</string>
+    <string id="HR_text">--- </string>
+    <string id="bpmString">bpm</string>
+    
+    <string id="totTime_text">Total time: </string>
+    <string id="totTime_value_s">--.--</string>
+    
+    <string id="delta_text">Delta: </string>
+    <string id="delta_value_s">--.--</string>
  
     <string id="NrCountMenuTitle">Beats to count</string>
     <string id="NrCountMenu_5">Count to 5</string>
