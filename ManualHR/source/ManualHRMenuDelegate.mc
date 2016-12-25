@@ -44,7 +44,7 @@ class NrCountMenuDelegate extends Ui.MenuInputDelegate {
     	
     	HB_count = 1.0*count;
     	App.getApp().setProperty("NR_BEATS_TO_COUNT", count); 
-    	Sys.println("Setting nr of heartbeats to count to:" + count);
+    	//Sys.println("Setting nr of heartbeats to count to:" + count);
     }
 }
 

@@ -21,7 +21,15 @@ class ManualHRInfoView extends Ui.View {
     
     //! Update the view
     function onUpdate(dc) {
-    // Call the parent onUpdate function to redraw the layout
+    	
+    	var countLessOneLabel =  View.findDrawableById("infoCountLessOne");
+    	var countLabel = View.findDrawableById("infoCount");
+    	
+    	countLessOneLabel.setText((HB_count-1).format("%.0d"));
+    	countLabel.setText(HB_count.format("%.0d"));
+    	
+    	
+    	// Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
     }
     

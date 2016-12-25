@@ -40,11 +40,15 @@
     <string id="InfoLine2">Find your pulse.</string>
     <string id="InfoLine3">Press 'Start' on one beat.</string>
     <string id="InfoLine4">When done counting press 'Stop'.</string>
-    <string id="InfoLine8">For a good estimate it is important</string>
-    <string id="InfoLine9">to count the first beat as zero.</string>
-    <string id="InfoLine10"></string>
-    <string id="InfoLine11"></string>
-    <string id="InfoLine12"></string>
+    <string id="InfoLine5">For a good estimate it is important</string>
+    <string id="InfoLine6">to count the first beat as zero,</string>
+    <string id="InfoLine7">and to ensure to press 'Stop'</string>
+    <string id="InfoLine8">exactly at the final beat.</string>
     
+    <string id="InfoCountZero">0</string>
+    <string id="InfoCountOne">1</string>
+    <string id="InfoCountTwo">2</string>
+    <string id="infoCountNrLessOne">9</string>
+    <string id="infoCountNr">10</string>
     
 </strings>
