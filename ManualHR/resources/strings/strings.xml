@@ -40,14 +40,11 @@
     <string id="InfoLine2">Find your pulse.</string>
     <string id="InfoLine3">Press 'Start' on one beat.</string>
     <string id="InfoLine4">When done counting press 'Stop'.</string>
-    <string id="InfoLine5">The average heart rate during </string>
-    <string id="InfoLine6">the counting will now appear.</string>
-    <string id="InfoLine7">For a good estimate it is important</string>
-    <string id="InfoLine8">to count the first beat as zero.</string>
-    <string id="InfoLine9">----------------------</string>
-    <string id="InfoLine10">Copyright 2016</string>
-    <string id="InfoLine11">Jonas Kronander</string>
-    <string id="InfoLine12">www.gripot.se</string>
+    <string id="InfoLine8">For a good estimate it is important</string>
+    <string id="InfoLine9">to count the first beat as zero.</string>
+    <string id="InfoLine10"></string>
+    <string id="InfoLine11"></string>
+    <string id="InfoLine12"></string>
     
     
 </strings>

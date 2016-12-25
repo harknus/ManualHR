@@ -3,12 +3,8 @@
     <label id="line2" x="center" y="30" text="@Strings.InfoLine2" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
     <label id="line3" x="center" y="45" text="@Strings.InfoLine3" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
     <label id="line4" x="center" y="60" text="@Strings.InfoLine4" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
-    
-    <label id="line5" x="center" y="75" text="@Strings.InfoLine5" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
-    <label id="line6" x="center" y="90" text="@Strings.InfoLine6" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
-    <label id="line7" x="center" y="105" text="@Strings.InfoLine7" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
-    
-    <bitmap id="InfoViewIllustration" x="0" y="75" filename="info_view_illustration.png" />
+     
+    <bitmap id="InfoViewIllustration" x="0" y="77" filename="info_view_illustration.png" />
 
     <label id="line8" x="center" y="120" text="@Strings.InfoLine8" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
     <label id="line9" x="center" y="135" text="@Strings.InfoLine9" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />

@@ -34,8 +34,8 @@ class ManualHRView extends Ui.View {
 
     //! Update the view
     function onUpdate(dc) {
+    	var label = View.findDrawableById("HR_label");
     	if(null != HR_value) {
-    		var label = View.findDrawableById("HR_label");
     		label.setText(HR_value);
     		//var bpmLabel = View.findDrawableById("bpmLabel");
     		//if (running == true) {
@@ -44,6 +44,10 @@ class ManualHRView extends Ui.View {
 			//	bpmLabel.setText("bpm");
 			//}
     	}
+    	else {
+    		label.setText("--- ");
+    	}
+    	
     	if(null != duration && running == false) {
     		//Display subresults when available
     		var subResultString1 = View.findDrawableById("ResultLabelTimeBetweenBeats_value");
