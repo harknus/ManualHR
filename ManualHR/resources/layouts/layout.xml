@@ -1,6 +1,6 @@
-<layout id="MainLayout">
-    <label id="prompt1" x="center" y="15" text="@Strings.prompt1" font="Gfx.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
-    <label id="prompt2" x="center" y="35" text="@Strings.prompt2start" font="Gfx.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+<layout id="MainLayout">    
+    <label id="prompt1" x="center" y="20" text="@Strings.prompt1" font="Gfx.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="prompt2" x="center" y="40" text="@Strings.prompt2start" font="Gfx.FONT_TINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
     <label id="HR_label" x="120" y="center" text="@Strings.HR_text" font="Gfx.FONT_SYSTEM_NUMBER_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
     <label id="bpmLabel" x="121" y="110" text="@Strings.bpmString" font="Gfx.FONT_SMALL" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
     
@@ -9,6 +9,4 @@
  
     <label id="ResultLabelTimeBetweenBeats" x="125" y="175" text="@Strings.delta_text" font="Gfx.FONT_SMALL" color="Gfx.COLOR_DK_GREEN" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
     <label id="ResultLabelTimeBetweenBeats_value" x="126" y="170" text="@Strings.delta_value_s" font="Gfx.FONT_NUMBER_MILD" color="Gfx.COLOR_DK_GREEN" justification="Gfx.TEXT_JUSTIFY_LEFT" />
-    
-	
 </layout>

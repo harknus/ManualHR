@@ -10,7 +10,8 @@
     
 	<string id="MainMenuTitle">Settings</string>
     <string id="menu_label_1">Beats to count</string>
-    <string id="menu_label_2">Instructions</string>
+    <string id="menu_label_2">History</string>
+    <string id="menu_label_3">Instructions</string>
     
     <string id="nrPickerTitle">Number of beats to count</string>
     <string id="HR_text">--- </string>

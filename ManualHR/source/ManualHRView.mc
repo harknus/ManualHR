@@ -1,6 +1,7 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.System as Sys;
+using Toybox.Graphics as Gfx;
 
 var startTime_ms;
 var HR_value;
@@ -34,6 +35,7 @@ class ManualHRView extends Ui.View {
 
     //! Update the view
     function onUpdate(dc) {
+    
     	var label = View.findDrawableById("HR_label");
     	if(null != HR_value) {
     		label.setText(HR_value);
@@ -70,8 +72,19 @@ class ManualHRView extends Ui.View {
     	}
     	label1.setText(newTxt1);
     	label2.setText(newTxt2);
+    	
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
+        
+        //Draw the indicator that indicates that the counting is ongoing
+        //works only on round displays
+    	if (running == true) {
+    		var penWidth = 4.0; 
+    		var centr = dc.getWidth()/2.0;
+    		dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_BLACK);
+    		dc.setPenWidth(penWidth);
+    		dc.drawCircle(centr, centr, centr - 0.5*penWidth); 
+    	}
     }
 
     //! Called when this View is removed from the screen. Save the

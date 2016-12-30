@@ -11,11 +11,16 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
 
     function onMenuItem(item) {
         if (item == :item_1) {
+        	//Show selector for the nubmer of heart beats to count
         	var countMenu = new Rez.Menus.NrCountMenu();
         	var title = Ui.loadResource(Rez.Strings.NrCountMenuTitle);
         	countMenu.setTitle(title);
         	Ui.pushView(countMenu, new NrCountMenuDelegate(), Ui.SLIDE_LEFT);
         } else if (item == :item_2) {
+        	//Show the history
+        	Ui.pushView(new HistoryView(), new HistoryViewDelegate(), Ui.SLIDE_LEFT);
+        } else if (item == :item_3) {
+        	//Show instructions
            Ui.pushView(new ManualHRInfoView(), new ManualHRInfoViewDelegate(), Ui.SLIDE_LEFT);
         }
     }
