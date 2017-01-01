@@ -9,21 +9,27 @@ var HB_count;
 var running;
 var totalTime;
 var duration;
+var shouldShowSaveIcon = false;
+var shouldShowRepeatIcon = false;
+
 
 
 class ManualHRView extends Ui.View {
-
+	hidden var saveIcon;
+	hidden var repeatIcon;
+	
     function initialize() {
         View.initialize();
+        saveIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.SaveIcon, :locX=>6, :locY=>102} );
+        repeatIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.RepeatIcon, :locX=>10, :locY=>139} );
     }
 
     //! Load your resources here
     function onLayout(dc) {
-        setLayout(Rez.Layouts.MainLayout(dc));
+        setLayout( Rez.Layouts.MainLayout(dc) );
         
         HB_count = App.getApp().getProperty("NR_BEATS_TO_COUNT");
         if (HB_count == null) {HB_count = 10.0;}
-        
         running = false;
     }
 
@@ -39,12 +45,6 @@ class ManualHRView extends Ui.View {
     	var label = View.findDrawableById("HR_label");
     	if(null != HR_value) {
     		label.setText(HR_value);
-    		//var bpmLabel = View.findDrawableById("bpmLabel");
-    		//if (running == true) {
-    		//	bpmLabel.setText("beats to count");
-			//} else {
-			//	bpmLabel.setText("bpm");
-			//}
     	}
     	else {
     		label.setText("--- ");
@@ -85,6 +85,9 @@ class ManualHRView extends Ui.View {
     		dc.setPenWidth(penWidth);
     		dc.drawCircle(centr, centr, centr - 0.5*penWidth); 
     	}
+    	
+    	if(shouldShowSaveIcon) { saveIcon.draw(dc); }
+    	if(shouldShowRepeatIcon && running == false) { repeatIcon.draw(dc); }
     }
 
     //! Called when this View is removed from the screen. Save the

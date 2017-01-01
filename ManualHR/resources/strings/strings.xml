@@ -52,4 +52,9 @@
     <string id="infoCountNrLessOne">9</string>
     <string id="infoCountNr">10</string>
     
+    <string id="HistoryMenuTitle">History Options</string>
+    <string id="ClearHistory">Clear history</string>
+    <string id="SelectBinSize">Select bin size</string>
+    <string id="HistoryError">No history available</string>
+    
 </strings>

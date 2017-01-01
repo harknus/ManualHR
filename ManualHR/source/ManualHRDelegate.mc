@@ -9,6 +9,7 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
     hidden var vibrationCount = 0;
     hidden const maxNrVibrations = 10;
     hidden var durationPerBeat;
+    hidden var result;
 
     function initialize() {
         BehaviorDelegate.initialize();
@@ -40,6 +41,7 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
     		}
     		running = true;
     		HR_value = null;
+    		shouldShowSaveIcon = false;
     		startTime_ms = Sys.getTimer();
     		Ui.requestUpdate();
     	}
@@ -56,22 +58,32 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
     		//Sys.println("Duration / beat [ms]: " + durationPerBeat);
     		if (durationPerBeat == 0) { HR_value = "infinite bpm";}
     		else {
-    			var result = 60000.0/durationPerBeat;
+    			result = 60000.0/durationPerBeat;
     			HR_value  = result.format("%.0f");
-    			//Sys.println("HR estimate: " + result.format("%.4f"));
-    			var sample = new HRData(result, Tme.now());
-    			if (historyList == null) { historyList = new LinkedObject(sample); }
-    			else { historyList.addObjectToEndOfList(sample); }
-    			//Sys.println("List size: " + historyList.getSize()+ "\n" + historyList + "\n\n");
-			}
+    			shouldShowSaveIcon = true;
+   			}
 			
 			//Start vibration if interval is large enough
 			if (durationPerBeat > 50){
 				timer = new Timer.Timer();
 				timer.start(method(:onTimer), durationPerBeat, true);
+				shouldShowRepeatIcon = true;
 			}
     		Ui.requestUpdate();
     	}
+    	return true;
+    }
+    
+    function onPreviousPage() {
+    	if (result != null) { //Result is set only after first measurmement
+	    	//Sys.println("HR estimate: " + result.format("%.4f"));
+	    	if (history == null) { history = new HistoryModel(); }
+	    	history.addValueToData(result.toNumber());
+	    	//Sys.println(history);
+	    	result = null; //Prevent saving again
+	    	shouldShowSaveIcon = false;
+	    	Ui.requestUpdate();
+		}
     	return true;
     }
     

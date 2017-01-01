@@ -1,0 +1,4 @@
+<menu id="HistoryMenu">
+    <menu-item id="ClearHistory">@Strings.ClearHistory</menu-item>
+    <menu-item id="SelectBinSize">@Strings.SelectBinSize</menu-item>
+</menu>
