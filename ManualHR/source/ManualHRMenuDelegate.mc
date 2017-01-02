@@ -19,7 +19,10 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
         } else if (item == :item_2) {
         	//Show the history
         	if (history == null) { history = new HistoryModel(); }
-        	Ui.pushView(new HistoryView(), new HistoryViewDelegate(), Ui.SLIDE_LEFT);
+        	var historyView = new HistoryView();
+        	var historyViewDelegate = new HistoryViewDelegate();
+        	historyViewDelegate.setCallbackView(historyView);
+        	Ui.pushView(historyView, historyViewDelegate, Ui.SLIDE_LEFT);
         } else if (item == :item_3) {
         	//Show instructions
            Ui.pushView(new ManualHRInfoView(), new ManualHRInfoViewDelegate(), Ui.SLIDE_LEFT);

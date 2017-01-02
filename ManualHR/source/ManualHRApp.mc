@@ -13,6 +13,9 @@ class ManualHRApp extends App.AppBase {
 
     //! onStart() is called on application start up
     function onStart(state) {
+    	//App.getApp().deleteProperty("HR_HISTORY_VERSION");
+        //App.getApp().deleteProperty("HR_HISTORY");
+        //App.getApp().deleteProperty("TIME_HISTORY");
     }
 
     //! onStop() is called when your application is exiting

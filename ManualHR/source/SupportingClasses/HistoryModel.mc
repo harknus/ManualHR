@@ -7,6 +7,7 @@ class HistoryModel {
 	const hrHistoryVersion = 1;
 	const dataSize = 220;
 	hidden var data = new [dataSize];
+	hidden var dataRange;
 	
 	//! function initialize(inputData, aBinSize) 
 	//! Input data is assumed to be an array of yValues
@@ -23,6 +24,8 @@ class HistoryModel {
 	//! function getDataRange()
 	//! returns an array specifying [minX, maxX, minY, maxY] 
 	function getDataRange(){
+		if(dataRange != null) { return dataRange; }
+	
 		var minX =  dataSize/2, maxX = dataSize/2, minY = 10000, maxY = 0;
 		var doneMinX = false;
 		var doneMaxX = false;
@@ -32,15 +35,32 @@ class HistoryModel {
 			if (data[i] > maxY) { maxY = data[i]; }
 			if (data[i] < minY) { minY = data[i]; }
 		}
+		dataRange = [minX, maxX, minY, maxY];
 		return [minX, maxX, minY, maxY];
+	}
+	
+	//! function getNonZeroRange()
+	function getNonZeroRange() {
+		var retArray = self.getDataRange();
+		return retArray[1] - retArray[0];
 	}
 	
 	//! function getDataFor(xValue)
 	//! returns the corresponding data for the xValue or null 
-	//! if the xValue is not in the data set 
+	//! if the xValue is not in the data set null is returned
 	function getDataFor(xValue){
 		if (xValue >= 0 && xValue < dataSize) { return data[xValue]; }
 		else { return null; }
+	}
+	
+	//! function getTotalNumberOfSamples()
+	//! returns the total number of samples in the history
+	function getTotalNumberOfSamples() {
+		var retval = 0;
+		for (var i=0; i < dataSize ; i++) {
+			retval += data[i];
+		}
+		return retval;
 	}
 	
 	// ! Input data is assumed to be an array of xValues
@@ -53,8 +73,9 @@ class HistoryModel {
 	//}
 	
 	function addValueToData(value) {
-	//Sys.println("Adding to data storage value: " + value);
+		//Sys.println("Adding to data storage value: " + value);
 		if (0 <= value && value < dataSize) {
+			dataRange = null;
 			//Sys.println("Data value prior to adding one: " + data[value]);
 			data[value] += 1;
 		}
