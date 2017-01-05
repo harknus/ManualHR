@@ -46,7 +46,7 @@ class HistoryView extends Ui.View {
     function onUpdate(dc) {
     	if(histogram != null) { 
     		//Clear stuff
-    		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+    		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
         	dc.clear();
     		
     		// Here we draw the graph

@@ -4,9 +4,9 @@
     <label id="HR_label" x="120" y="center" text="@Strings.HR_text" font="Gfx.FONT_SYSTEM_NUMBER_MEDIUM" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
     <label id="bpmLabel" x="121" y="110" text="@Strings.bpmString" font="Gfx.FONT_SMALL" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
     
-    <label id="ResultLabelTotalTime" x="125" y="150" text="@Strings.totTime_text" font="Gfx.FONT_SMALL" color="Gfx.COLOR_DK_GREEN" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
-    <label id="ResultLabelTotalTime_value" x="126" y="145" text="@Strings.totTime_value_s" font="Gfx.FONT_NUMBER_MILD" color="Gfx.COLOR_DK_GREEN" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+    <label id="ResultLabelTotalTime" x="125" y="155" text="@Strings.totTime_text" font="Gfx.FONT_TINY" color="Gfx.COLOR_GREEN" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
+    <label id="ResultLabelTotalTime_value" x="126" y="155" text="@Strings.totTime_value_s" font="Gfx.FONT_TINY" color="Gfx.COLOR_GREEN" justification="Gfx.TEXT_JUSTIFY_LEFT" />
  
-    <label id="ResultLabelTimeBetweenBeats" x="125" y="175" text="@Strings.delta_text" font="Gfx.FONT_SMALL" color="Gfx.COLOR_DK_GREEN" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
-    <label id="ResultLabelTimeBetweenBeats_value" x="126" y="170" text="@Strings.delta_value_s" font="Gfx.FONT_NUMBER_MILD" color="Gfx.COLOR_DK_GREEN" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+    <label id="ResultLabelTimeBetweenBeats" x="125" y="175" text="@Strings.delta_text" font="Gfx.FONT_TINY" color="Gfx.COLOR_GREEN" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
+    <label id="ResultLabelTimeBetweenBeats_value" x="126" y="175" text="@Strings.delta_value_s" font="Gfx.FONT_TINY" color="Gfx.COLOR_GREEN" justification="Gfx.TEXT_JUSTIFY_LEFT" />
 </layout>

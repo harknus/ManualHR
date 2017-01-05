@@ -80,7 +80,7 @@ class Histogram {
 		var y2 = 160;
 		
 		var maxValue = getMaxCount();
-		var yScale = (y2-y1)/maxValue;
+		var yScale = (maxValue == 0)? 1 : (y2-y1)/maxValue;
 		
 		var ticSize = 2;
 		
@@ -166,6 +166,6 @@ class Histogram {
     
     hidden function text(dc, x, y, font, s) {
         dc.drawText(x, y, font, s,
-                    Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
+                    Gfx.TEXT_JUSTIFY_CENTER|Gfx.TEXT_JUSTIFY_VCENTER);
     }
 }

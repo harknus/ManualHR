@@ -2,6 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.System as Sys;
 using Toybox.Graphics as Gfx;
+using Toybox.Sensor as Sensor;
 
 var startTime_ms;
 var HR_value;
@@ -17,10 +18,12 @@ var shouldShowRepeatIcon = false;
 class ManualHRView extends Ui.View {
 	hidden var saveIcon;
 	hidden var repeatIcon;
+	hidden var hr_has_connected = false;
+	hidden var measuredHRValue = null;
 	
     function initialize() {
         View.initialize();
-        saveIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.SaveIcon, :locX=>6, :locY=>102} );
+        saveIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.SaveIcon, :locX=>6, :locY=>100} );
         repeatIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.RepeatIcon, :locX=>10, :locY=>139} );
     }
 
@@ -33,10 +36,20 @@ class ManualHRView extends Ui.View {
         running = false;
     }
 
+	var vibForStartAlert = [new Attention.VibeProfile(10,20),
+							new Attention.VibeProfile(100,40),
+    				  		new Attention.VibeProfile(10,20),
+    				  		new Attention.VibeProfile(0,200),
+    				  		new Attention.VibeProfile(10,20),
+    				  		new Attention.VibeProfile(100,40),
+    				  		new Attention.VibeProfile(10,20)];
     //! Called when this View is brought to the foreground. Restore
     //! the state of this View and prepare it to be shown. This includes
     //! loading resources into memory.
     function onShow() {
+    	Attention.vibrate(vibForStartAlert);
+    	Sensor.setEnabledSensors( [Sensor.SENSOR_HEARTRATE] );
+        Sensor.enableSensorEvents( method(:onSensor) );
     }
 
     //! Update the view
@@ -88,6 +101,18 @@ class ManualHRView extends Ui.View {
     	
     	if(shouldShowSaveIcon) { saveIcon.draw(dc); }
     	if(shouldShowRepeatIcon && running == false) { repeatIcon.draw(dc); }
+    	
+    	if(hr_has_connected) {
+    		var x = 184;
+    		var y =  62;
+    		dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_BLACK);
+    		dc.drawText(x, y, Gfx.FONT_XTINY, "Sensor HR: ", Gfx.TEXT_JUSTIFY_RIGHT);
+    		if (measuredHRValue != null) {
+    			dc.drawText(x+1, y, Gfx.FONT_XTINY, measuredHRValue.format("%.0d") , Gfx.TEXT_JUSTIFY_LEFT);
+    		} else {
+    			dc.drawText(x+1, y, Gfx.FONT_XTINY, "---", Gfx.TEXT_JUSTIFY_LEFT);
+    		}
+    	}
     }
 
     //! Called when this View is removed from the screen. Save the
@@ -96,4 +121,17 @@ class ManualHRView extends Ui.View {
     function onHide() {
     }
 
+	hidden var vibForHRconnect = [new Attention.VibeProfile(50,100)];
+	//! callback for HR sensor events
+	function onSensor(sensorInfo) {
+        if (sensorInfo.heartRate != null && !hr_has_connected) {
+            if (Attention has :playTone) {
+                Attention.playTone(Attention.TONE_KEY);
+            }
+            Attention.vibrate(vibForHRconnect);
+            hr_has_connected = true;
+        }
+        measuredHRValue = sensorInfo.heartRate;
+        Ui.requestUpdate();
+    }
 }

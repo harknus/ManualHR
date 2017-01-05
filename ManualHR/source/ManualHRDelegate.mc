@@ -56,11 +56,13 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
     		durationPerBeat = duration_ms/HB_count;
     		duration = durationPerBeat/1000.0;
     		//Sys.println("Duration / beat [ms]: " + durationPerBeat);
-    		if (durationPerBeat == 0) { HR_value = "infinite bpm";}
+    		if (durationPerBeat == 0) { HR_value = "inf";}
     		else {
     			result = 60000.0/durationPerBeat;
     			HR_value  = result.format("%.0f");
-    			shouldShowSaveIcon = true;
+    			
+    			//Only allow saving if the value is less than 220
+    			if (result < 220) { shouldShowSaveIcon = true; }
    			}
 			
 			//Start vibration if interval is large enough
@@ -73,9 +75,12 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
     	}
     	return true;
     }
+   
+   	var vibForSave = [new Attention.VibeProfile(50,100)];
     
     function onPreviousPage() {
-    	if (result != null) { //Result is set only after first measurmement
+    	if (result != null && shouldShowSaveIcon) { //Result is set only after first measurmement
+	    	resetTimer();
 	    	//Sys.println("HR estimate: " + result.format("%.4f"));
 	    	if (history == null) { history = new HistoryModel(); }
 	    	history.addValueToData(result.toNumber());
@@ -83,6 +88,7 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
 	    	result = null; //Prevent saving again
 	    	shouldShowSaveIcon = false;
 	    	Ui.requestUpdate();
+	    	Attention.vibrate(vibForSave);
 		}
     	return true;
     }
