@@ -27,7 +27,9 @@ class ManualHRApp extends App.AppBase {
 
     //! Return the initial view of your application here
     function getInitialView() {
-        return [ new ManualHRView(), new ManualHRDelegate() ];
+    	var mainView = new ManualHRView();
+    	var viewDelegate = new ManualHRDelegate(mainView);
+        return [mainView, viewDelegate];
     }
 
 }

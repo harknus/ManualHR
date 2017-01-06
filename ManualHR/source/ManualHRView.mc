@@ -4,22 +4,21 @@ using Toybox.System as Sys;
 using Toybox.Graphics as Gfx;
 using Toybox.Sensor as Sensor;
 
-var startTime_ms;
-var HR_value;
-var HB_count;
-var running;
-var totalTime;
-var duration;
-var shouldShowSaveIcon = false;
-var shouldShowRepeatIcon = false;
-
-
-
 class ManualHRView extends Ui.View {
 	hidden var saveIcon;
 	hidden var repeatIcon;
 	hidden var hr_has_connected = false;
 	hidden var measuredHRValue = null;
+	
+	
+	var HR_value;
+	var HB_count;
+	var running;
+	var totalTime;
+	var duration;
+	var shouldShowSaveIcon = false;
+	var shouldShowRepeatIcon = false;
+	
 	
     function initialize() {
         View.initialize();

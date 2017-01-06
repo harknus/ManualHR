@@ -12,21 +12,29 @@ class HistoryView extends Ui.View {
 	function initialize() {	
 		if (history != null) { 
 			maxNrOfBins = history.getNonZeroRange();
-			nrOfBins = 6;
+			nrOfBins = (maxNrOfBins==0)? 1 : maxNrOfBins;
 			histogram = new Histogram(history, nrOfBins);
 		}
         View.initialize();
     }
     
-    function modifyNrOfBins(increase) {
-    	var newNrOfBins = nrOfBins + increase;
-    	if (1< newNrOfBins && newNrOfBins <= maxNrOfBins) { 
-    		self.setNrOfBins(newNrOfBins);
-    	}
+    function getMaxNrOfBins() {
+    	return maxNrOfBins;
     }
     
-    function setNrOfBins(aNrOfBins) {
-    	nrOfBins = aNrOfBins;
+    function modifyNrOfBins(increase) {
+    	var newNrOfBins = nrOfBins + increase;
+    	self.setNrOfBins(newNrOfBins);
+    }
+    
+    function setNrOfBins(newNrOfBins) {
+    	
+    	//Sanity check of number of bins that is set
+    	if (1 >= newNrOfBins) { newNrOfBins = 2; }
+    	if (maxNrOfBins < newNrOfBins) { newNrOfBins = maxNrOfBins; }
+    	
+    	self.nrOfBins = newNrOfBins;
+    	
     	histogram =  new Histogram(history, nrOfBins);
     	Ui.requestUpdate();
     }
@@ -99,7 +107,7 @@ class HistoryViewDelegate extends Ui.BehaviorDelegate {
 		//Push menu to allow clearing the history
 		var menu = new Rez.Menus.HistoryMenu();
     	menu.setTitle(Ui.loadResource(Rez.Strings.HistoryMenuTitle));
-        Ui.pushView(menu, new HistoryMenuDelegate(), Ui.SLIDE_LEFT);
+        Ui.pushView(menu, new HistoryMenuDelegate(callbackView), Ui.SLIDE_LEFT);
 	   	return true;
     }
     
@@ -113,16 +121,92 @@ class HistoryViewDelegate extends Ui.BehaviorDelegate {
 
 class HistoryMenuDelegate extends Ui.MenuInputDelegate {
 
-	function initialize() {
+	hidden var callbackView;
+	
+	function initialize(view) {
+		//Sys.println("init HistoryMenuDelegate with callbackview:" + view);
         MenuInputDelegate.initialize();
+        callbackView = view;
     }
     
     function onMenuItem(item) {
-        if (item == :item_1) {
+    	//Sys.println("Item selected: " + item);
+        if (item == :SetNumberOfBins) {
+            //Sys.println("Pushing Number Picker");
+        	Ui.pushView(new MyNumberPicker(callbackView.getMaxNrOfBins()), 
+        				new MyNumberPickerDelegate(callbackView), 
+        				Ui.SLIDE_LEFT);
+        }
+        else if (item == :ClearHistory) {
         	//Reset history
         	App.getApp().deleteProperty("HR_HISTORY_VERSION");
         	App.getApp().deleteProperty("HR_HISTORY");
         	history = null;
         } 
+    }
+}
+
+class MyNumberPicker extends Ui.Picker {
+	hidden var entalFactory;
+	hidden var tiotalFactory;
+	hidden var hundratalFactory;
+	hidden var maxNrOfBins;
+	
+	function initialize(aMaxNrBins) {
+		maxNrOfBins = aMaxNrBins;
+		var title = new Ui.Text({:text=>Rez.Strings.NumberPickerTitle, 
+        						 :locX =>Ui.LAYOUT_HALIGN_CENTER, 
+        						 :locY=>Ui.LAYOUT_VALIGN_BOTTOM, 
+        						 :color=>Gfx.COLOR_WHITE});
+        var factories;
+        if (aMaxNrBins > 99) {
+        	hundratalFactory = new NumberFactory( 0, aMaxNrBins/100, 1, {:font=>Gfx.FONT_NUMBER_HOT});
+        	tiotalFactory = new NumberFactory( 0, 9, 1, {:font=>Gfx.FONT_NUMBER_HOT});
+        	entalFactory = new NumberFactory(0, 9, 1, {:font=>Gfx.FONT_NUMBER_HOT});
+        	factories = [hundratalFactory, tiotalFactory, entalFactory];
+        } 
+        if (aMaxNrBins > 9) {
+        	tiotalFactory = new NumberFactory( 0, aMaxNrBins/10, 1, {:font=>Gfx.FONT_NUMBER_HOT, :format=>"%.0d"});
+        	entalFactory = new NumberFactory(0, 9, 1, {:font=>Gfx.FONT_NUMBER_HOT, :format=>"%.0d"});
+        	factories = [tiotalFactory, entalFactory];
+        }
+        else {
+        	entalFactory = new NumberFactory(2, aMaxNrBins, 1, {:font=>Gfx.FONT_NUMBER_HOT, :format=>"%.0d"});
+        	factories = [entalFactory];
+        }
+        
+        Picker.initialize({:title=>title, :pattern=>factories});
+    }
+    
+    function onUpdate(dc) {
+        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
+        dc.clear();
+       
+        Picker.onUpdate(dc);
+    }
+}
+
+class MyNumberPickerDelegate extends Ui.PickerDelegate {
+	hidden var callbackView;
+	
+	function initialize(view) {
+		//Sys.println("MyNumberPickerDelegate with callbackView:" + view);
+		callbackView = view;
+		PickerDelegate.initialize();
+	}
+
+    function onCancel() {
+        Ui.popView(Ui.SLIDE_RIGHT);
+    }
+
+    function onAccept(values) {
+    	var nrOfBins;
+        if      (values.size() == 3) { nrOfBins = 100*values[0] + 10*values[1] + values[2]; }
+        else if (values.size() == 2) { nrOfBins = 10*values[0] + values[1]; }
+        else { nrOfBins = values[0]; }
+        
+        callbackView.setNrOfBins(nrOfBins);
+        Ui.popView(Ui.SLIDE_IMMEDIATE);
+        Ui.popView(Ui.SLIDE_IMMEDIATE);
     }
 }

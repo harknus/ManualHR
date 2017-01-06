@@ -5,20 +5,24 @@ using Toybox.Application as App;
 
 class ManualHRDelegate extends Ui.BehaviorDelegate {
     
+    hidden var callbackView;
+    
     hidden var timer;
     hidden var vibrationCount = 0;
     hidden const maxNrVibrations = 10;
     hidden var durationPerBeat;
     hidden var result;
+    hidden var startTime_ms;
 
-    function initialize() {
+    function initialize(view) {
+    	callbackView = view;
         BehaviorDelegate.initialize();
     }
 
     function onMenu() {
     	var menu = new Rez.Menus.MainMenu();
     	menu.setTitle(Ui.loadResource(Rez.Strings.MainMenuTitle));
-        Ui.pushView(menu, new ManualHRMenuDelegate(), Ui.SLIDE_LEFT);
+        Ui.pushView(menu, new ManualHRMenuDelegate(callbackView), Ui.SLIDE_LEFT);
         return true;
     }
 
@@ -35,41 +39,41 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
 	
     function onSelect(){
     	//Start the timer at this press
-    	if (running == false){
+    	if (callbackView.running == false){
     		if (timer != null) {
     			resetTimer();
     		}
-    		running = true;
-    		HR_value = null;
-    		shouldShowSaveIcon = false;
+    		callbackView.running = true;
+    		callbackView.HR_value = null;
+    		callbackView.shouldShowSaveIcon = false;
     		startTime_ms = Sys.getTimer();
     		Ui.requestUpdate();
     	}
     	else {
     		//Stop the counting
-    		running = false;
+    		callbackView.running = false;
     		var stopTime_ms = Sys.getTimer();
     		var duration_ms = stopTime_ms - startTime_ms;
     		//Sys.println("Duration = " + duration_ms); 
-  			totalTime = duration_ms/1000.0;
+  			callbackView.totalTime = duration_ms/1000.0;
   
-    		durationPerBeat = duration_ms/HB_count;
-    		duration = durationPerBeat/1000.0;
+    		durationPerBeat = duration_ms/callbackView.HB_count;
+    		callbackView.duration = durationPerBeat/1000.0;
     		//Sys.println("Duration / beat [ms]: " + durationPerBeat);
-    		if (durationPerBeat == 0) { HR_value = "inf";}
+    		if (durationPerBeat == 0) { callbackView.HR_value = "inf";}
     		else {
     			result = 60000.0/durationPerBeat;
-    			HR_value  = result.format("%.0f");
+    			callbackView.HR_value  = result.format("%.0f");
     			
     			//Only allow saving if the value is less than 220
-    			if (result < 220) { shouldShowSaveIcon = true; }
+    			if (result < 220) { callbackView.shouldShowSaveIcon = true; }
    			}
 			
 			//Start vibration if interval is large enough
 			if (durationPerBeat > 50){
 				timer = new Timer.Timer();
 				timer.start(method(:onTimer), durationPerBeat, true);
-				shouldShowRepeatIcon = true;
+				callbackView.shouldShowRepeatIcon = true;
 			}
     		Ui.requestUpdate();
     	}
@@ -79,14 +83,14 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
    	var vibForSave = [new Attention.VibeProfile(50,100)];
     
     function onPreviousPage() {
-    	if (result != null && shouldShowSaveIcon) { //Result is set only after first measurmement
+    	if (result != null && callbackView.shouldShowSaveIcon) { //Result is set only after first measurmement
 	    	resetTimer();
 	    	//Sys.println("HR estimate: " + result.format("%.4f"));
 	    	if (history == null) { history = new HistoryModel(); }
 	    	history.addValueToData(result.toNumber());
 	    	//Sys.println(history);
 	    	result = null; //Prevent saving again
-	    	shouldShowSaveIcon = false;
+	    	callbackView.shouldShowSaveIcon = false;
 	    	Ui.requestUpdate();
 	    	Attention.vibrate(vibForSave);
 		}

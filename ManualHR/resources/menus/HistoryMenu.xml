@@ -1,3 +1,4 @@
 <menu id="HistoryMenu">
-    <menu-item id="ClearHistory">@Strings.ClearHistory</menu-item>
+	<menu-item id="SetNumberOfBins">@Strings.SetNrBinsLabel</menu-item> -->
+    <menu-item id="ClearHistory">@Strings.ClearHistoryLabel</menu-item>
 </menu>

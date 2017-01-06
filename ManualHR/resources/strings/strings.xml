@@ -14,7 +14,7 @@
     <string id="menu_label_3">Instructions</string>
     
     <string id="nrPickerTitle">Number of beats to count</string>
-    <string id="HR_text">--- </string>
+    <string id="HR_text">---</string>
     <string id="bpmString">bpm</string>
     
     <string id="totTime_text">Total time: </string>
@@ -53,7 +53,8 @@
     <string id="infoCountNr">10</string>
     
     <string id="HistoryMenuTitle">History Options</string>
-    <string id="ClearHistory">Clear history</string>
+    <string id="SetNrBinsLabel">Set number of bins</string>
+    <string id="ClearHistoryLabel">Clear history</string>
     <string id="HistoryError">No history available</string>
-    
+    <string id="NumberPickerTitle">Number of bins for histogram</string>
 </strings>

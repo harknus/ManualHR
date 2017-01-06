@@ -4,9 +4,12 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 
 class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
-
-    function initialize() {
+	
+	hidden var callbackView;
+	
+    function initialize(view) {
         MenuInputDelegate.initialize();
+        callbackView = view;
     }
 
     function onMenuItem(item) {
@@ -15,7 +18,7 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
         	var countMenu = new Rez.Menus.NrCountMenu();
         	var title = Ui.loadResource(Rez.Strings.NrCountMenuTitle);
         	countMenu.setTitle(title);
-        	Ui.pushView(countMenu, new NrCountMenuDelegate(), Ui.SLIDE_LEFT);
+        	Ui.pushView(countMenu, new NrCountMenuDelegate(callbackView), Ui.SLIDE_LEFT);
         } else if (item == :item_2) {
         	//Show the history
         	if (history == null) { history = new HistoryModel(); }
@@ -32,8 +35,11 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
 
 class NrCountMenuDelegate extends Ui.MenuInputDelegate {
 
-	function initialize() {
+	hidden var callbackView;
+
+	function initialize(view) {
         MenuInputDelegate.initialize();
+        callbackView = view;
     }
 
     function onMenuItem(item) {
@@ -51,7 +57,7 @@ class NrCountMenuDelegate extends Ui.MenuInputDelegate {
     	if (item == :count55) {count = 55;}
     	if (item == :count60) {count = 60;}
     	
-    	HB_count = 1.0*count;
+    	callbackView.HB_count = 1.0*count;
     	App.getApp().setProperty("NR_BEATS_TO_COUNT", count); 
     	//Sys.println("Setting nr of heartbeats to count to:" + count);
     }
