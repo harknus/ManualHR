@@ -11,6 +11,9 @@ class Histogram {
 	hidden var binBorders;
 	hidden var restHR;
 	
+	hidden var gender; 
+	hidden var age; 
+	
 	hidden const line_color = Gfx.COLOR_WHITE;
 	hidden const bin_color1 = Gfx.COLOR_GREEN;
 	hidden const bin_color2 = Gfx.COLOR_DK_GREEN;
@@ -19,7 +22,11 @@ class Histogram {
 	
 	//! Provide a pointer to a data provider that provides
 	//! getDataFor(xValue) and getDataRange();
-	function initialize(aDataProvider, aNrOfBins) {
+	function initialize(aDataProvider, aNrOfBins, aGender, anAge) {
+	    
+	    gender = aGender;
+	    age = anAge;
+	    
 	    nrOfBins = aNrOfBins;
 	    binValues = new [nrOfBins];
 	    binBorders = new [nrOfBins+1];
@@ -29,7 +36,11 @@ class Histogram {
 		
 		var range = dataProvider.getDataRange();
 		
+		//Sys.println(range + " #bins: " + nrOfBins);
+		
 		restHR = range[0];
+		
+		if(range[1]==null) {range[1] = range[0]+1;}
 		
 		var binSize = (range[1] - range[0])/(1.0*nrOfBins);
 		binBorders[0] = range[0];
@@ -37,6 +48,7 @@ class Histogram {
 		for (var n = 1 ; n<nrOfBins ; n++) {
 			binBorders[n] = range[0] + n*binSize;
 		} 
+		
 		
 		for (var i = range[0]; i <= range[1]; i++) {
 			var value = dataProvider.getDataFor(i);
@@ -70,7 +82,6 @@ class Histogram {
 	//! Draws the histogram in the specified drawing context (dc) 
 	//! using the data provided by the data provider 
 	function draw(dc) {
-		
 		dc.setPenWidth(1);
 		
 		//Parameters for Fenix3
@@ -91,12 +102,25 @@ class Histogram {
 		xOffsetL = (2*xOffsetL + recidue)/2;
 		var xOffsetR = (2*xOffsetL + recidue) % 2 == 0 ? xOffsetL : xOffsetL+1;
 		
+		var hrTools = new HRTools();
+		
 		dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
-		text(dc, 109, 40, Gfx.FONT_TINY, "Rest HR: " + restHR + " bpm" );
-
+		text(dc, 109, 25, Gfx.FONT_TINY, "Histogram");
+		text(dc, 109, 45, Gfx.FONT_XTINY, "Resting HR: " + restHR + " bpm" );
+		text(dc, 109, 60, Gfx.FONT_XTINY, hrTools.getAssessmentForRestingHR(restHR, age, gender) );
+		
+		
+		//Want to show 7 or 6 labels or less in total
+		var nrOfSpacesBetweenLabels = (xOffsetR+xOffsetL < 20)? 6: 5;
+		var nrOfBinsBetweenLabels = nrOfBins / nrOfSpacesBetweenLabels;
+		var recidueLabels = nrOfBins % nrOfSpacesBetweenLabels;
+		
+		var currentNrBinsSinceLastLabel = 0;
+		var labelsLeftToDrawInLoop = nrOfSpacesBetweenLabels - 1;
+        
         for (var n=0; n<nrOfBins; n++) {
-        	if( n%2 == 0 ) {dc.setColor(bin_color1, Gfx.COLOR_TRANSPARENT);}
-        	else {dc.setColor(bin_color2, Gfx.COLOR_TRANSPARENT);}
+        	if( n%2 == 0 ) { dc.setColor(bin_color1, Gfx.COLOR_TRANSPARENT); }
+        	else { dc.setColor(bin_color2, Gfx.COLOR_TRANSPARENT); }
         	var height = binValues[n]*yScale;
         	var x = xOffsetL + x1 + n*binWidth;
         	var y = y2-height;
@@ -107,16 +131,23 @@ class Histogram {
         		dc.drawLine(x+binWidth, y+height+1, x+binWidth, y+height+1+ticSize);
         	}
         	
-        	if (binValues[n] > 0 && binWidth > dc.getTextWidthInPixels(binBorders[n].format("%.0d"), Gfx.FONT_XTINY)) {
+        	//New algorithm
+        	if (nrOfBinsBetweenLabels == 0) { // Fewer bins than wanted labels => draw all
         		dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
         		dc.drawText(x, y2, Gfx.FONT_XTINY, binBorders[n].format("%.0d"), Gfx.TEXT_JUSTIFY_CENTER);
-        		if (n < nrOfBins-1) {
-        			if(binValues[n+1] == 0 && binWidth > dc.getTextWidthInPixels(binBorders[n+1].format("%.0d"), Gfx.FONT_XTINY)) {
-        				dc.drawText(x+binWidth, y2, Gfx.FONT_XTINY, binBorders[n+1].format("%.0d"), Gfx.TEXT_JUSTIFY_CENTER);
-        			}
-        		}
         	}
-        	//Sys.println("Rectangle "+ (n+1) +": [" + x + "," + y + "," + binWidth + "," + height + "]");
+        	else {
+        		if (labelsLeftToDrawInLoop > 0 && currentNrBinsSinceLastLabel == nrOfBinsBetweenLabels) {
+        			if (labelsLeftToDrawInLoop == recidueLabels) { 
+        				nrOfBinsBetweenLabels++; 
+    				}
+        			dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
+        			dc.drawText(x, y2, Gfx.FONT_XTINY, binBorders[n].format("%.0d"), Gfx.TEXT_JUSTIFY_CENTER);
+        			currentNrBinsSinceLastLabel = 0;
+        			labelsLeftToDrawInLoop--;
+        		}
+        		currentNrBinsSinceLastLabel ++;
+        	}
         }
         
         //Draw the axes
@@ -128,21 +159,11 @@ class Histogram {
         //Print bin border values, and max count
         dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
         dc.drawText(x1-3, y1, Gfx.FONT_XTINY, maxValue, Gfx.TEXT_JUSTIFY_RIGHT|Gfx.TEXT_JUSTIFY_VCENTER);
-        if (binWidth <= dc.getTextWidthInPixels(binBorders[0].format("%.0d"), Gfx.FONT_XTINY)){
-        	dc.drawText(x1+xOffsetL, y2, Gfx.FONT_XTINY, binBorders[0].format("%.0d"), Gfx.TEXT_JUSTIFY_CENTER);
-        }
+        //if (binWidth <= dc.getTextWidthInPixels(binBorders[0].format("%.0d"), Gfx.FONT_XTINY)){
+        dc.drawText(x1+xOffsetL, y2, Gfx.FONT_XTINY, binBorders[0].format("%.0d"), Gfx.TEXT_JUSTIFY_CENTER);
+        //}
         dc.drawText(x2-xOffsetR, y2, Gfx.FONT_XTINY, binBorders[nrOfBins].format("%.0d"), Gfx.TEXT_JUSTIFY_CENTER);
 	}
-	
-    //hidden function text_outline(dc, x, y, fg, bg, font, s) {
-    //    dc.setColor(bg, Graphics.COLOR_TRANSPARENT);
-    //    dc.drawText(x-2, y, font, s, Graphics.TEXT_JUSTIFY_LEFT);
-    //    dc.drawText(x+2, y, font, s, Graphics.TEXT_JUSTIFY_LEFT);
-    //    dc.drawText(x, y-2, font, s, Graphics.TEXT_JUSTIFY_LEFT);
-    //    dc.drawText(x, y+2, font, s, Graphics.TEXT_JUSTIFY_LEFT);
-    //    dc.setColor(fg, Graphics.COLOR_TRANSPARENT);
-    //    dc.drawText(x, y, font, s, Graphics.TEXT_JUSTIFY_LEFT);
-    //}
 	
 	hidden function tick_line(dc, c, end1, end2, tick_size, maxTicVal, vert) {
         tick_line0(dc, c, end1, end2, vert);

@@ -53,7 +53,7 @@ class ManualHRView extends Ui.View {
 
     //! Update the view
     function onUpdate(dc) {
-    
+    	
     	var label = View.findDrawableById("HR_label");
     	if(null != HR_value) {
     		label.setText(HR_value);
@@ -118,6 +118,7 @@ class ManualHRView extends Ui.View {
     //! state of this View here. This includes freeing resources from
     //! memory.
     function onHide() {
+    	Sensor.setEnabledSensors( [] );
     }
 
 	hidden var vibForHRconnect = [new Attention.VibeProfile(50,100)];

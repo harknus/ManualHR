@@ -2,18 +2,32 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 using Toybox.System as Sys;
 using Toybox.Graphics as Gfx;
+using Toybox.Time as Tme;
 
 class HistoryView extends Ui.View {
 
 	hidden var histogram;
 	hidden var nrOfBins = 10;
 	hidden var maxNrOfBins;
-		
+	hidden var historyNeedsUpdate = false;
+	hidden var userGender;
+	hidden var userAge;
+	
 	function initialize() {	
 		if (history != null) { 
 			maxNrOfBins = history.getNonZeroRange();
-			nrOfBins = (maxNrOfBins==0)? 1 : maxNrOfBins;
-			histogram = new Histogram(history, nrOfBins);
+			maxNrOfBins = (maxNrOfBins==0)? 1 : maxNrOfBins; //maxNrOfBins may never be zero
+			nrOfBins = maxNrOfBins;
+			
+			var profile = UserProfile.getProfile(); 
+			userGender = profile.gender;
+			var now = Tme.Gregorian.info(Tme.today(), Tme.FORMAT_SHORT);
+			userAge = now.year - profile.birthYear;
+			
+			//Sys.println("gender: " + userGender + " age: " + userAge);
+			
+			histogram = new Histogram(history, nrOfBins, userGender, userAge);
+			historyNeedsUpdate = true;
 		}
         View.initialize();
     }
@@ -30,12 +44,14 @@ class HistoryView extends Ui.View {
     function setNrOfBins(newNrOfBins) {
     	
     	//Sanity check of number of bins that is set
-    	if (1 >= newNrOfBins) { newNrOfBins = 2; }
+    	if (newNrOfBins < 1) { newNrOfBins = 1; }
     	if (maxNrOfBins < newNrOfBins) { newNrOfBins = maxNrOfBins; }
     	
     	self.nrOfBins = newNrOfBins;
     	
-    	histogram =  new Histogram(history, nrOfBins);
+    	histogram =  new Histogram(history, nrOfBins, userGender, userAge);
+    	
+    	historyNeedsUpdate = true;
     	Ui.requestUpdate();
     }
     
@@ -53,20 +69,24 @@ class HistoryView extends Ui.View {
     //! Update the view
     function onUpdate(dc) {
     	if(histogram != null) { 
-    		//Clear stuff
-    		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
-        	dc.clear();
-    		
-    		// Here we draw the graph
-    		histogram.draw(dc); 
-    		if (nrOfBins > 2) {
-        		//Draw down arrow
-        		self.drawArrow(dc, 109, 213, 5, false);
-	        }
-	        if (nrOfBins < maxNrOfBins) {
-	        	//Draw up arrow
-        		self.drawArrow(dc, 109, 5, 5, true);
-	        }
+	    	if(historyNeedsUpdate){
+	    		//Clear stuff
+	    		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+	        	dc.clear();
+	    		
+	    		// Here we draw the graph
+	    		histogram.draw(dc);
+	    		historyNeedsUpdate = false;
+	    		
+	    		if (nrOfBins > 1) {
+	        		//Draw down arrow
+	        		self.drawArrow(dc, 109, 213, 5, false);
+		        }
+		        if (nrOfBins < maxNrOfBins) {
+		        	//Draw up arrow
+	        		self.drawArrow(dc, 109, 5, 5, true);
+		        }
+	    	}
     	}
     	// Call the parent onUpdate function to redraw the layout
         else { View.onUpdate(dc); }
