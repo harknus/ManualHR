@@ -8,6 +8,7 @@ class HistoryModel {
 	const dataSize = 220;
 	hidden var data = new [dataSize];
 	hidden var dataRange;
+	hidden var hasData;
 	
 	//! function initialize(inputData, aBinSize) 
 	//! Input data is assumed to be an array of yValues
@@ -16,9 +17,15 @@ class HistoryModel {
 		var dataRead = readDataFromObjectStore();
 		if (!dataRead) { // No previous data in storage
 			//Initialize data with only zeros
+			hasData = false;
 			data = new [dataSize];
 			for (var i=0; i < dataSize ; i++) { data[i] = 0; }
 		}
+		else { hasData = true; }
+	}
+	
+	function getHasData() {
+		return self.hasData;
 	}
 	
 	//! function getDataRange()
@@ -78,6 +85,7 @@ class HistoryModel {
 			dataRange = null;
 			//Sys.println("Data value prior to adding one: " + data[value]);
 			data[value] += 1;
+			hasData = true;
 		}
 	}
 	

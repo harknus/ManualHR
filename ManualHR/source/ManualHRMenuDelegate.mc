@@ -28,7 +28,7 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
         	Ui.pushView(historyView, historyViewDelegate, Ui.SLIDE_LEFT);
         } else if (item == :item_3) {
         	//Show instructions
-           Ui.pushView(new ManualHRInfoView(), new ManualHRInfoViewDelegate(), Ui.SLIDE_LEFT);
+           Ui.pushView(new ManualHRInfoView(callbackView.HB_count), new ManualHRInfoViewDelegate(), Ui.SLIDE_LEFT);
         }
     }
 }

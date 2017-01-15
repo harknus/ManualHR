@@ -4,8 +4,11 @@ using Toybox.Application as App;
 
 class ManualHRInfoView extends Ui.View {
 
-	function initialize() {
+	hidden var HB_count;
+
+	function initialize(aHB_count) {
         View.initialize();
+        HB_count = aHB_count;
     }
     
     //! Load your resources here

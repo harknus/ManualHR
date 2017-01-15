@@ -9,12 +9,13 @@ class HistoryView extends Ui.View {
 	hidden var histogram;
 	hidden var nrOfBins = 10;
 	hidden var maxNrOfBins;
-	hidden var historyNeedsUpdate = false;
 	hidden var userGender;
 	hidden var userAge;
 	
+	hidden var menuIcon; 
+	
 	function initialize() {	
-		if (history != null) { 
+		if (history != null && history.getHasData()) { 
 			maxNrOfBins = history.getNonZeroRange();
 			maxNrOfBins = (maxNrOfBins==0)? 1 : maxNrOfBins; //maxNrOfBins may never be zero
 			nrOfBins = maxNrOfBins;
@@ -27,9 +28,17 @@ class HistoryView extends Ui.View {
 			//Sys.println("gender: " + userGender + " age: " + userAge);
 			
 			histogram = new Histogram(history, nrOfBins, userGender, userAge);
-			historyNeedsUpdate = true;
 		}
         View.initialize();
+    }
+    
+    //! function resetHistory()
+    //! resets the history and clears the histogram
+    function resetHistory() {
+    	App.getApp().deleteProperty("HR_HISTORY_VERSION");
+       	App.getApp().deleteProperty("HR_HISTORY");
+       	history = null;
+    	histogram = null;
     }
     
     function getMaxNrOfBins() {
@@ -43,6 +52,8 @@ class HistoryView extends Ui.View {
     
     function setNrOfBins(newNrOfBins) {
     	
+    	if (histogram == null) { return; }
+    	
     	//Sanity check of number of bins that is set
     	if (newNrOfBins < 1) { newNrOfBins = 1; }
     	if (maxNrOfBins < newNrOfBins) { newNrOfBins = maxNrOfBins; }
@@ -51,13 +62,13 @@ class HistoryView extends Ui.View {
     	
     	histogram =  new Histogram(history, nrOfBins, userGender, userAge);
     	
-    	historyNeedsUpdate = true;
     	Ui.requestUpdate();
     }
     
     //! Load your resources here
     function onLayout(dc) {
        setLayout(Rez.Layouts.HistoryLayout(dc));
+       menuIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.MenuIcon, :locX=>6, :locY=>100} );
     }
 
 	//! Called when this View is brought to the foreground. Restore
@@ -69,24 +80,25 @@ class HistoryView extends Ui.View {
     //! Update the view
     function onUpdate(dc) {
     	if(histogram != null) { 
-	    	if(historyNeedsUpdate){
-	    		//Clear stuff
-	    		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
-	        	dc.clear();
-	    		
-	    		// Here we draw the graph
-	    		histogram.draw(dc);
-	    		historyNeedsUpdate = false;
-	    		
-	    		if (nrOfBins > 1) {
-	        		//Draw down arrow
-	        		self.drawArrow(dc, 109, 213, 5, false);
-		        }
-		        if (nrOfBins < maxNrOfBins) {
-		        	//Draw up arrow
-	        		self.drawArrow(dc, 109, 5, 5, true);
-		        }
-	    	}
+	    	
+    		//Clear stuff
+    		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+        	dc.clear();
+    		
+    		// Here we draw the graph
+    		histogram.draw(dc);
+    		
+    		if (nrOfBins > 1) {
+        		//Draw down arrow
+        		self.drawArrow(dc, 109, 213, 5, false);
+	        }
+	        if (nrOfBins < maxNrOfBins) {
+	        	//Draw up arrow
+        		self.drawArrow(dc, 109, 5, 5, true);
+	        }
+	        
+	        //Draw the menu icon
+	        menuIcon.draw(dc); 
     	}
     	// Call the parent onUpdate function to redraw the layout
         else { View.onUpdate(dc); }
@@ -124,11 +136,16 @@ class HistoryViewDelegate extends Ui.BehaviorDelegate {
     }
 	
 	function onMenu() {
-		//Push menu to allow clearing the history
-		var menu = new Rez.Menus.HistoryMenu();
-    	menu.setTitle(Ui.loadResource(Rez.Strings.HistoryMenuTitle));
-        Ui.pushView(menu, new HistoryMenuDelegate(callbackView), Ui.SLIDE_LEFT);
-	   	return true;
+		if (history != null) {
+			//Push menu to allow clearing the history
+			var menu = new Rez.Menus.HistoryMenu();
+	    	menu.setTitle(Ui.loadResource(Rez.Strings.HistoryMenuTitle));
+	        Ui.pushView(menu, new HistoryMenuDelegate(callbackView), Ui.SLIDE_LEFT);
+		   	return true;
+	   	}
+	   	else {
+	   		return false;
+	   	}
     }
     
     function onPreviousPage(){
@@ -158,11 +175,25 @@ class HistoryMenuDelegate extends Ui.MenuInputDelegate {
         				Ui.SLIDE_LEFT);
         }
         else if (item == :ClearHistory) {
-        	//Reset history
-        	App.getApp().deleteProperty("HR_HISTORY_VERSION");
-        	App.getApp().deleteProperty("HR_HISTORY");
-        	history = null;
+        	//Reset history, with intitial query
+        	var dialogueView = new Ui.Confirmation("Clear all history?");
+        	var dialogueDelegate = new ClearHistoryDialogueDelegate(callbackView);
+        	Ui.pushView(dialogueView, dialogueDelegate, Ui.SLIDE_LEFT);
         } 
+    }
+}
+
+class ClearHistoryDialogueDelegate extends Ui.ConfirmationDelegate {
+	hidden var callbackView;
+	function initialize(view) {
+        ConfirmationDelegate.initialize();
+        callbackView = view;
+    }
+    function onResponse(response) {
+	    if (response == Ui.CONFIRM_YES) {
+	    	callbackView.resetHistory();
+	    }
+	    Ui.popView(Ui.SLIDE_RIGHT);
     }
 }
 
@@ -226,7 +257,6 @@ class MyNumberPickerDelegate extends Ui.PickerDelegate {
         else { nrOfBins = values[0]; }
         
         callbackView.setNrOfBins(nrOfBins);
-        Ui.popView(Ui.SLIDE_IMMEDIATE);
         Ui.popView(Ui.SLIDE_IMMEDIATE);
     }
 }

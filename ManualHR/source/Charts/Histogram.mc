@@ -105,9 +105,9 @@ class Histogram {
 		var hrTools = new HRTools();
 		
 		dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
-		text(dc, 109, 25, Gfx.FONT_TINY, "Histogram");
-		text(dc, 109, 45, Gfx.FONT_XTINY, "Resting HR: " + restHR + " bpm" );
-		text(dc, 109, 60, Gfx.FONT_XTINY, hrTools.getAssessmentForRestingHR(restHR, age, gender) );
+		text(dc, 109, 20, Gfx.FONT_TINY, "Histogram");
+		text(dc, 109, 40, Gfx.FONT_XTINY, "Resting HR: " + restHR + " bpm" );
+		text(dc, 109, 55, Gfx.FONT_XTINY, hrTools.getAssessmentForRestingHR(restHR, age, gender) );
 		
 		
 		//Want to show 7 or 6 labels or less in total

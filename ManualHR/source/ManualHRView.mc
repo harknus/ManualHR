@@ -7,6 +7,7 @@ using Toybox.Sensor as Sensor;
 class ManualHRView extends Ui.View {
 	hidden var saveIcon;
 	hidden var repeatIcon;
+	hidden var menuIcon;
 	hidden var hr_has_connected = false;
 	hidden var measuredHRValue = null;
 	
@@ -22,13 +23,14 @@ class ManualHRView extends Ui.View {
 	
     function initialize() {
         View.initialize();
-        saveIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.SaveIcon, :locX=>6, :locY=>100} );
-        repeatIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.RepeatIcon, :locX=>10, :locY=>139} );
     }
 
     //! Load your resources here
     function onLayout(dc) {
         setLayout( Rez.Layouts.MainLayout(dc) );
+        saveIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.SaveIcon, :locX=>6, :locY=>100} );
+        repeatIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.RepeatIcon, :locX=>10, :locY=>139} );
+        menuIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.MenuIcon, :locX=>6, :locY=>100} );
         
         HB_count = App.getApp().getProperty("NR_BEATS_TO_COUNT");
         if (HB_count == null) {HB_count = 10.0;}
@@ -99,6 +101,7 @@ class ManualHRView extends Ui.View {
     	}
     	
     	if(shouldShowSaveIcon) { saveIcon.draw(dc); }
+    	else if(running == false){ menuIcon.draw(dc); }
     	if(shouldShowRepeatIcon && running == false) { repeatIcon.draw(dc); }
     	
     	if(hr_has_connected) {

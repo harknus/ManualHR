@@ -8,7 +8,7 @@
     <string id="prompt1Running">Press stop</string>
     <string id="prompt2Running">after </string>
     
-	<string id="MainMenuTitle">Settings</string>
+	<string id="MainMenuTitle">Menu</string>
     <string id="menu_label_1">Beats to count</string>
     <string id="menu_label_2">History</string>
     <string id="menu_label_3">Instructions</string>
