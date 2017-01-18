@@ -2,4 +2,5 @@
     <menu-item id="item_1">@Strings.menu_label_1</menu-item>
     <menu-item id="item_2">@Strings.menu_label_2</menu-item>
     <menu-item id="item_3">@Strings.menu_label_3</menu-item>
+    <menu-item id="about">@Strings.menu_label_4</menu-item>
 </menu>

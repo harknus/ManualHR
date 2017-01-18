@@ -29,6 +29,8 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
         } else if (item == :item_3) {
         	//Show instructions
            Ui.pushView(new ManualHRInfoView(callbackView.HB_count), new ManualHRInfoViewDelegate(), Ui.SLIDE_LEFT);
+        } else if (item == :about) {
+        	Ui.pushView(new AboutView(), new AboutViewDelegate(), Ui.SLIDE_LEFT);
         }
     }
 }

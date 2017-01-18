@@ -12,6 +12,7 @@
     <string id="menu_label_1">Beats to count</string>
     <string id="menu_label_2">History</string>
     <string id="menu_label_3">Instructions</string>
+    <string id="menu_label_4">About</string>
     
     <string id="nrPickerTitle">Number of beats to count</string>
     <string id="HR_text">---</string>
@@ -57,4 +58,16 @@
     <string id="ClearHistoryLabel">Clear history</string>
     <string id="HistoryError">No history available</string>
     <string id="NumberPickerTitle">Number of bins for histogram</string>
+
+	<string id="AboutTitle">About</string>
+	<string id="AboutText">Manual HR may use code 
+	from HR chart (available on 
+	GitHub) by baby_simon.
+	The assessment of resting HR is 
+	based on data from Topend Sports
+	www.topendsports.com/testing/
+	heart-rate-resting-faq.htm
+	 </string>
+
+
 </strings>
