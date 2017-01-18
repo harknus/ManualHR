@@ -193,7 +193,6 @@ class ClearHistoryDialogueDelegate extends Ui.ConfirmationDelegate {
 	    if (response == Ui.CONFIRM_YES) {
 	    	callbackView.resetHistory();
 	    }
-	    Ui.popView(Ui.SLIDE_RIGHT);
     }
 }
 
