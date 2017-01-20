@@ -89,16 +89,6 @@ class ManualHRView extends Ui.View {
     	
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
-        
-        //Draw the indicator that indicates that the counting is ongoing
-        //works only on round displays
-    	if (running == true) {
-    		var penWidth = 4.0; 
-    		var centr = dc.getWidth()/2.0;
-    		dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_BLACK);
-    		dc.setPenWidth(penWidth);
-    		dc.drawCircle(centr, centr, centr - 0.5*penWidth); 
-    	}
     	
     	if(shouldShowSaveIcon) { saveIcon.draw(dc); }
     	else if(running == false){ menuIcon.draw(dc); }
@@ -114,6 +104,16 @@ class ManualHRView extends Ui.View {
     		} else {
     			dc.drawText(x+1, y, Gfx.FONT_XTINY, "---", Gfx.TEXT_JUSTIFY_LEFT);
     		}
+    	}
+    	
+    	//Draw the indicator that indicates that the counting is ongoing
+        //works only on round displays
+    	if (running == true) {
+    		var penWidth = 4.0; 
+    		var centr = dc.getWidth()/2.0;
+    		dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_BLACK);
+    		dc.setPenWidth(penWidth);
+    		dc.drawCircle(centr, centr, centr - 0.5*penWidth); 
     	}
     }
 
