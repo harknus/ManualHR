@@ -85,16 +85,23 @@ class ManualHRDelegate extends Ui.BehaviorDelegate {
     function onPreviousPage() {
     	if (result != null && callbackView.shouldShowSaveIcon) { //Result is set only after first measurmement
 	    	resetTimer();
-	    	//Sys.println("HR estimate: " + result.format("%.4f"));
-	    	if (history == null) { history = new HistoryModel(); }
-	    	history.addValueToData((result+0.5).toNumber()); // +0.5 to be consistent with rounding since toNumber just discards decimals
-	    	//Sys.println(history);
-	    	result = null; //Prevent saving again
+	    	saveResult();
 	    	callbackView.shouldShowSaveIcon = false;
 	    	Ui.requestUpdate();
 	    	Attention.vibrate(vibForSave);
 		}
     	return true;
+    }
+    
+    function saveResult() {
+    		//Sys.println("HR estimate: " + result.format("%.4f"));
+	    	
+	    	//Save to history
+	    	if (history == null) { history = new HistoryModel(); }
+	    	history.addValueToData((result+0.5).toNumber()); // +0.5 to be consistent with rounding since toNumber just discards decimals
+	    	//Sys.println(history);
+	    	
+	    	result = null; //Prevent saving again
     }
     
     function onNextPage() {

@@ -4,11 +4,15 @@ using Toybox.System as Sys;
 //! Class HistoryModel supports data values for HR between 0 and 220.
 class HistoryModel {
 	
-	const hrHistoryVersion = 1;
+	const hrHistoryVersion = 2;
 	const dataSize = 220;
 	hidden var data = new [dataSize];
 	hidden var dataRange;
 	hidden var hasData;
+	
+	const nrTimeSamples = 10;
+	hidden var timeSamples = new [nrTimeSamples]; 
+	hidden var startIdxOfTimeSamples = 0;
 	
 	//! function initialize(inputData, aBinSize) 
 	//! Input data is assumed to be an array of yValues
@@ -20,8 +24,17 @@ class HistoryModel {
 			hasData = false;
 			data = new [dataSize];
 			for (var i=0; i < dataSize ; i++) { data[i] = 0; }
+			
+			initTimeSamples();
+			
 		}
 		else { hasData = true; }
+	}
+	
+	hidden function initTimeSamples() {
+			timeSamples = new [nrTimeSamples];
+			for (var i=0; i < nrTimeSamples; i++) { timeSamples[i] = 0;}
+			startIdxOfTimeSamples = 0;
 	}
 	
 	function getHasData() {
@@ -29,7 +42,7 @@ class HistoryModel {
 	}
 	
 	//! function getDataRange()
-	//! returns an array specifying [minX, maxX, minY, maxY] 
+	//! returns an array specifying [minX, maxX, minY, maxY] for the histogram
 	function getDataRange(){
 		if(dataRange != null) { return dataRange; }
 	
@@ -87,6 +100,11 @@ class HistoryModel {
 			data[value] += 1;
 			hasData = true;
 		}
+		// Add value to the time history
+		timeSamples[startIdxOfTimeSamples] = value;
+		startIdxOfTimeSamples = (startIdxOfTimeSamples +1) % nrTimeSamples;
+		//Sys.println("StartIdxOfTimeHistory: " + startIdxOfTimeSamples + "\nTime history: " + timeSamples);
+		
 	}
 	
 	function readDataFromObjectStore() {
@@ -98,8 +116,8 @@ class HistoryModel {
 			if ( hrHistoryVersion == null ) {
 				//Sys.print(" first version data");
 	        	//First version of data storage
-	        	var timeHistory = App.getApp().getProperty("TIME_HISTORY");
-    			if (timeHistory != null) {
+	        	var timeHist = App.getApp().getProperty("TIME_HISTORY");
+    			if (timeHist != null) {
     				//Remove this data - clean up old storage
     				App.getApp().deleteProperty("TIME_HISTORY");
     			}
@@ -114,6 +132,15 @@ class HistoryModel {
 	        else if ( hrHistoryVersion == 1) {
 	        	//Sys.print(" new version data");
 	        	data = hrHistory;
+	        	initTimeSamples();
+	        } 
+	        else if ( hrHistoryVersion == 2) {
+	        	data = hrHistory;
+	        	var timeSampl = App.getApp().getProperty("HR_TIME_SAMPLES");
+	        	if (timeSampl != null) {
+	        		timeSamples = timeSampl;
+	        	}
+	        	else { initTimeSamples(); }
 	        }
 	        else {
 	        	//Sys.print(" no good version data found");
@@ -126,8 +153,20 @@ class HistoryModel {
 	    }
 	}
 	
+	//! function getTimeSamples()
+	//! Returns the sorted the HR time samples so that the oldest value 
+	//! is in the 0 position in the array when saving and showing visually
+	function getTimeSamples() {
+		var retvar = new [nrTimeSamples];
+		for (var i=0; i <nrTimeSamples; i++) {
+			retvar[i] = timeSamples[(startIdxOfTimeSamples + i) % nrTimeSamples];
+		}
+		return retvar;
+	}
+	
 	function saveDataToObjectStore() {
 		App.getApp().setProperty("HR_HISTORY", data);
+		App.getApp().setProperty("HR_TIME_SAMPLES", getTimeSamples());
 		App.getApp().setProperty("HR_HISTORY_VERSION", hrHistoryVersion);
 	}
 	

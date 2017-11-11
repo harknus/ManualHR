@@ -9,10 +9,11 @@
     <string id="prompt2Running">after </string>
     
 	<string id="MainMenuTitle">Menu</string>
-    <string id="menu_label_1">Beats to count</string>
-    <string id="menu_label_2">History</string>
-    <string id="menu_label_3">Instructions</string>
-    <string id="menu_label_4">About</string>
+    <string id="menu_label_1">Histogram</string>
+    <string id="menu_label_2">Time series</string>
+    <string id="menu_label_3">Beats to count</string>
+    <string id="menu_label_4">Instructions</string>
+    <string id="menu_label_5">About</string>
     
     <string id="nrPickerTitle">Number of beats to count</string>
     <string id="HR_text">---</string>
@@ -53,7 +54,7 @@
     <string id="infoCountNrLessOne">9</string>
     <string id="infoCountNr">10</string>
     
-    <string id="HistoryMenuTitle">History Options</string>
+    <string id="HistogramMenuTitle">Histogram Options</string>
     <string id="SetNrBinsLabel">Set number of bins</string>
     <string id="ClearHistoryLabel">Clear history</string>
     <string id="HistoryError">No history available</string>

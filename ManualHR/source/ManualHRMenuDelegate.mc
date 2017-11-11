@@ -14,19 +14,23 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
 
     function onMenuItem(item) {
         if (item == :item_1) {
+        	//Show the history as histogram
+        	if (history == null) { history = new HistoryModel(); }
+        	var histogramView = new HistogramView();
+        	var histogramViewDelegate = new HistogramViewDelegate();
+        	histogramViewDelegate.setCallbackView(histogramView);
+        	Ui.pushView(histogramView, histogramViewDelegate, Ui.SLIDE_LEFT);
+        } else if (item == :item_2) {
+        	// Show the history as a time series
+        	if (history == null) { history = new HistoryModel(); }
+        	Ui.pushView(new TimeSeriesView(), new TimeSeriesViewDelegate(), Ui.SLIDE_LEFT);
+        } else if (item == :item_3) {
         	//Show selector for the nubmer of heart beats to count
         	var countMenu = new Rez.Menus.NrCountMenu();
         	var title = Ui.loadResource(Rez.Strings.NrCountMenuTitle);
         	countMenu.setTitle(title);
         	Ui.pushView(countMenu, new NrCountMenuDelegate(callbackView), Ui.SLIDE_LEFT);
-        } else if (item == :item_2) {
-        	//Show the history
-        	if (history == null) { history = new HistoryModel(); }
-        	var historyView = new HistoryView();
-        	var historyViewDelegate = new HistoryViewDelegate();
-        	historyViewDelegate.setCallbackView(historyView);
-        	Ui.pushView(historyView, historyViewDelegate, Ui.SLIDE_LEFT);
-        } else if (item == :item_3) {
+        } else if (item == :item_4) {
         	//Show instructions
            Ui.pushView(new ManualHRInfoView(callbackView.HB_count), new ManualHRInfoViewDelegate(), Ui.SLIDE_LEFT);
         } else if (item == :about) {

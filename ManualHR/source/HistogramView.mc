@@ -4,7 +4,7 @@ using Toybox.System as Sys;
 using Toybox.Graphics as Gfx;
 using Toybox.Time as Tme;
 
-class HistoryView extends Ui.View {
+class HistogramView extends Ui.View {
 
 	hidden var histogram;
 	hidden var nrOfBins = 10;
@@ -18,7 +18,9 @@ class HistoryView extends Ui.View {
 		if (history != null && history.getHasData()) { 
 			maxNrOfBins = history.getNonZeroRange();
 			maxNrOfBins = (maxNrOfBins==0)? 1 : maxNrOfBins; //maxNrOfBins may never be zero
-			nrOfBins = maxNrOfBins;
+			nrOfBins = maxNrOfBins/3;
+			if (nrOfBins == 0) { nrOfBins = 1; }
+			//nrOfBins = maxNrOfBins;
 			
 			var profile = UserProfile.getProfile(); 
 			userGender = profile.gender;
@@ -123,7 +125,7 @@ class HistoryView extends Ui.View {
     
 }
 
-class HistoryViewDelegate extends Ui.BehaviorDelegate {
+class HistogramViewDelegate extends Ui.BehaviorDelegate {
 
 	hidden var callbackView;
 
@@ -138,9 +140,9 @@ class HistoryViewDelegate extends Ui.BehaviorDelegate {
 	function onMenu() {
 		if (history != null) {
 			//Push menu to allow clearing the history
-			var menu = new Rez.Menus.HistoryMenu();
-	    	menu.setTitle(Ui.loadResource(Rez.Strings.HistoryMenuTitle));
-	        Ui.pushView(menu, new HistoryMenuDelegate(callbackView), Ui.SLIDE_LEFT);
+			var menu = new Rez.Menus.HistogramMenu();
+	    	menu.setTitle(Ui.loadResource(Rez.Strings.HistogramMenuTitle));
+	        Ui.pushView(menu, new HistogramMenuDelegate(callbackView), Ui.SLIDE_LEFT);
 		   	return true;
 	   	}
 	   	else {
@@ -156,7 +158,7 @@ class HistoryViewDelegate extends Ui.BehaviorDelegate {
     }
 }
 
-class HistoryMenuDelegate extends Ui.MenuInputDelegate {
+class HistogramMenuDelegate extends Ui.MenuInputDelegate {
 
 	hidden var callbackView;
 	
