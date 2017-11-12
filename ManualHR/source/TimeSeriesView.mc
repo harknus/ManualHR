@@ -44,20 +44,20 @@ class TimeSeriesView extends Ui.View {
         	dc.setPenWidth(1);
 		
 			//Parameters for Fenix3
-			var x1 = 25;
+			var x1 = 15; // 25
 			var y1 = 70;
 			var x2 = 195;
 			var y2 = 160;
         	
         	dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
-			text(dc, 109, 30, Gfx.FONT_TINY, "Latest " + nrSamples);
+			text(dc, 109, 30, Gfx.FONT_TINY, "Latest " + (nrSamples-1));
 			text(dc, 109, 50, Gfx.FONT_TINY, "HR measurements");
 			
 			//Draw the axes
-			dc.setColor(line_color, Gfx.COLOR_TRANSPARENT);
-        	dc.drawLine(x1,y1,x1,y2); dc.drawPoint(x1,y2);
-        	dc.drawLine(x1,y2,x2,y2); dc.drawPoint(x2,y2);
-        	dc.drawLine(x2, y1, x2, y2); 
+			//dc.setColor(line_color, Gfx.COLOR_TRANSPARENT);
+        	//dc.drawLine(x1,y1,x1,y2); dc.drawPoint(x1,y2);
+        	//dc.drawLine(x1,y2+5,x2,y2+5); dc.drawPoint(x2,y2+5);
+        	//dc.drawLine(x2, y1, x2, y2); 
         	
         	//draw the data
         	var xOffsetL = 0;
@@ -66,28 +66,29 @@ class TimeSeriesView extends Ui.View {
 			xOffsetL = (2*xOffsetL + recidue)/2;
 			var xOffsetR = (2*xOffsetL + recidue) % 2 == 0 ? xOffsetL : xOffsetL+1;
 			
-			var yRange = getMaxValue() - getMinValue();
-			var yScale = (yRange == 0)? 1 : (y2-y1)/yRange; 
+			var yOffset = 3;
+			var minDataValue = getMinValue();
+			var yRange = getMaxValue() - minDataValue;
+			var yScale = (yRange == 0)? 1 : (y2-y1-yOffset)/yRange; 
 		
 			for (var i=0; i<nrSamples ; i++) {
 				var x = x1 + xStep*(i+1) + xOffsetL;
-				var y = y2 - data[i]*yScale;
+				var y = y2 - (data[i]- minDataValue)*yScale - yOffset;
 				
 				//Draw lines between points
 				if (i<nrSamples-1) {
-					dc.setColor(line_color, Gfx.COLOR_TRANSPARENT);
+					if (i==0) { dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);}
+					else      { dc.setColor(line_color, Gfx.COLOR_TRANSPARENT);}
 					var xNxt = x1 + xStep*(i+2) + xOffsetL;
-					var yNxt = y2 - data[i+1]*yScale;
+					var yNxt = y2 - (data[i+1] - minDataValue)*yScale - yOffset;
 	        		dc.drawLine(x,y,xNxt,yNxt);
         		}
-				
-				drawSquareAtCenter(dc,x,y);
-				var yText = (i%2==0)? y-10 : y+8;
-				text(dc, x, yText, Gfx.FONT_XTINY, data[i]);
-				
-				
+				if (i != 0) { // first data point is just for showing history
+					drawSquareAtCenter(dc,x,y);
+					var yText = (i%2==0)? y-10 : y+8;
+					text(dc, x, yText, Gfx.FONT_XTINY, data[i]);
+				}
 			}
-        	
     	}
     	// Call the parent onUpdate function to redraw the layout
         else { View.onUpdate(dc); }

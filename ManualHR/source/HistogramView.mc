@@ -37,8 +37,7 @@ class HistogramView extends Ui.View {
     //! function resetHistory()
     //! resets the history and clears the histogram
     function resetHistory() {
-    	App.getApp().deleteProperty("HR_HISTORY_VERSION");
-       	App.getApp().deleteProperty("HR_HISTORY");
+    	history.clearHistoryInObjectStore();
        	history = null;
     	histogram = null;
     }

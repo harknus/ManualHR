@@ -10,7 +10,7 @@ class HistoryModel {
 	hidden var dataRange;
 	hidden var hasData;
 	
-	const nrTimeSamples = 10;
+	const nrTimeSamples = 11;
 	hidden var timeSamples = new [nrTimeSamples]; 
 	hidden var startIdxOfTimeSamples = 0;
 	
@@ -129,12 +129,12 @@ class HistoryModel {
 	        		addValueToData(hrHistory[i]);
 	        	}
 	        }
-	        else if ( hrHistoryVersion == 1) {
+	        else if ( hrHistoryVersion == 1 ) {
 	        	//Sys.print(" new version data");
 	        	data = hrHistory;
 	        	initTimeSamples();
 	        } 
-	        else if ( hrHistoryVersion == 2) {
+	        else if ( hrHistoryVersion == 2 ) {
 	        	data = hrHistory;
 	        	var timeSampl = App.getApp().getProperty("HR_TIME_SAMPLES");
 	        	if (timeSampl != null) {
@@ -168,6 +168,12 @@ class HistoryModel {
 		App.getApp().setProperty("HR_HISTORY", data);
 		App.getApp().setProperty("HR_TIME_SAMPLES", getTimeSamples());
 		App.getApp().setProperty("HR_HISTORY_VERSION", hrHistoryVersion);
+	}
+	
+	function clearHistoryInObjectStore() {
+		App.getApp().deleteProperty("HR_HISTORY_VERSION");
+       	App.getApp().deleteProperty("HR_HISTORY");
+       	App.getApp().deleteProperty("HR_TIME_SAMPLES");
 	}
 	
 	function toString() {
