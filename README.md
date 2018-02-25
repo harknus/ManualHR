@@ -1,7 +1,7 @@
 # ManualHR
 Source code for the ConnectIQ app Manual HR - primarily designed for Fenix 3
 
-The app will soon appear on Garmin's Connect IQ platform for apps.
+The app is available on Garmin's Connect IQ platform: https://apps.garmin.com/sv-SE/apps/3a0cd414-d7e9-41e2-8e2e-388c1b12e3fc
 
 Acknowledgments
 Parts of this code is inspired/borrowed from the HR widget code by Simon MacMullen available at 
