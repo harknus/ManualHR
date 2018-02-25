@@ -9,8 +9,8 @@
     <string id="prompt2Running">after </string>
     
 	<string id="MainMenuTitle">Menu</string>
-    <string id="menu_label_1">Histogram</string>
-    <string id="menu_label_2">Time series</string>
+    <string id="menu_label_1">Time series</string>
+    <string id="menu_label_2">Histogram</string>
     <string id="menu_label_3">Beats to count</string>
     <string id="menu_label_4">Instructions</string>
     <string id="menu_label_5">About</string>

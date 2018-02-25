@@ -14,16 +14,16 @@ class ManualHRMenuDelegate extends Ui.MenuInputDelegate {
 
     function onMenuItem(item) {
         if (item == :item_1) {
+        	// Show the history as a time series
+        	if (history == null) { history = new HistoryModel(); }
+        	Ui.pushView(new TimeSeriesView(), new TimeSeriesViewDelegate(), Ui.SLIDE_LEFT);
+        } else if (item == :item_2) {
         	//Show the history as histogram
         	if (history == null) { history = new HistoryModel(); }
         	var histogramView = new HistogramView();
         	var histogramViewDelegate = new HistogramViewDelegate();
         	histogramViewDelegate.setCallbackView(histogramView);
         	Ui.pushView(histogramView, histogramViewDelegate, Ui.SLIDE_LEFT);
-        } else if (item == :item_2) {
-        	// Show the history as a time series
-        	if (history == null) { history = new HistoryModel(); }
-        	Ui.pushView(new TimeSeriesView(), new TimeSeriesViewDelegate(), Ui.SLIDE_LEFT);
         } else if (item == :item_3) {
         	//Show selector for the nubmer of heart beats to count
         	var countMenu = new Rez.Menus.NrCountMenu();

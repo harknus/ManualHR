@@ -69,7 +69,7 @@ class TimeSeriesView extends Ui.View {
 			var yOffset = 3;
 			var minDataValue = getMinValue();
 			var yRange = getMaxValue() - minDataValue;
-			var yScale = (yRange == 0)? 1 : (y2-y1-yOffset)/yRange; 
+			var yScale = (yRange == 0)? 1 : (y2-y1-yOffset)/(1.0*yRange); 
 		
 			for (var i=0; i<nrSamples ; i++) {
 				var x = x1 + xStep*(i+1) + xOffsetL;
