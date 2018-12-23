@@ -1,14 +1,14 @@
 <menu id="NrCountMenu">
-    <menu-item id="count5">@Strings.NrCountMenu_5</menu-item>
-    <menu-item id="count10">@Strings.NrCountMenu_10</menu-item>
-    <menu-item id="count15">@Strings.NrCountMenu_15</menu-item>
-    <menu-item id="count20">@Strings.NrCountMenu_20</menu-item>
-    <menu-item id="count25">@Strings.NrCountMenu_25</menu-item>
-    <menu-item id="count30">@Strings.NrCountMenu_30</menu-item>
-    <menu-item id="count35">@Strings.NrCountMenu_35</menu-item>
-    <menu-item id="count40">@Strings.NrCountMenu_40</menu-item>
-    <menu-item id="count45">@Strings.NrCountMenu_45</menu-item>
-    <menu-item id="count50">@Strings.NrCountMenu_50</menu-item>
-    <menu-item id="count55">@Strings.NrCountMenu_55</menu-item>
-    <menu-item id="count60">@Strings.NrCountMenu_60</menu-item>
+    <menu-item id="count5" label="@Strings.NrCountMenu_5"></menu-item>
+    <menu-item id="count10" label="@Strings.NrCountMenu_10"></menu-item>
+    <menu-item id="count15" label="@Strings.NrCountMenu_15"></menu-item>
+    <menu-item id="count20" label="@Strings.NrCountMenu_20"></menu-item>
+    <menu-item id="count25" label="@Strings.NrCountMenu_25"></menu-item>
+    <menu-item id="count30" label="@Strings.NrCountMenu_30"></menu-item>
+    <menu-item id="count35" label="@Strings.NrCountMenu_35"></menu-item>
+    <menu-item id="count40" label="@Strings.NrCountMenu_40"></menu-item>
+    <menu-item id="count45" label="@Strings.NrCountMenu_45"></menu-item>
+    <menu-item id="count50" label="@Strings.NrCountMenu_50"></menu-item>
+    <menu-item id="count55" label="@Strings.NrCountMenu_55"></menu-item>
+    <menu-item id="count60" label="@Strings.NrCountMenu_60"></menu-item>
 </menu>

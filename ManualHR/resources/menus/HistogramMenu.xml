@@ -1,4 +1,4 @@
 <menu id="HistogramMenu">
-	<menu-item id="SetNumberOfBins">@Strings.SetNrBinsLabel</menu-item> -->
-    <menu-item id="ClearHistory">@Strings.ClearHistoryLabel</menu-item>
+	<menu-item id="SetNumberOfBins" label="@Strings.SetNrBinsLabel"></menu-item>
+    <menu-item id="ClearHistory" label="@Strings.ClearHistoryLabel"></menu-item>
 </menu>

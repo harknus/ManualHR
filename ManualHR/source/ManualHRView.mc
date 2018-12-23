@@ -3,6 +3,7 @@ using Toybox.Application as App;
 using Toybox.System as Sys;
 using Toybox.Graphics as Gfx;
 using Toybox.Sensor as Sensor;
+using Toybox.Attention;
 
 class ManualHRView extends Ui.View {
 	hidden var saveIcon;
@@ -19,18 +20,20 @@ class ManualHRView extends Ui.View {
 	var duration;
 	var shouldShowSaveIcon = false;
 	var shouldShowRepeatIcon = false;
-	
+	var screenHeight;
 	
     function initialize() {
+    	screenHeight = System.getDeviceSettings().screenHeight;
         View.initialize();
     }
 
     //! Load your resources here
     function onLayout(dc) {
         setLayout( Rez.Layouts.MainLayout(dc) );
-        saveIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.SaveIcon, :locX=>6, :locY=>100} );
-        repeatIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.RepeatIcon, :locX=>10, :locY=>139} );
-        menuIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.MenuIcon, :locX=>6, :locY=>100} );
+        
+        saveIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.SaveIcon, :locX=>6, :locY=>screenHeight/2-9} ); //! 100
+        repeatIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.RepeatIcon, :locX=>10, :locY=>screenHeight/2 +30} ); //!139
+        menuIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.MenuIcon, :locX=>6, :locY=>screenHeight/2-9} ); //! 100
         
         HB_count = App.getApp().getProperty("NR_BEATS_TO_COUNT");
         if (HB_count == null) {HB_count = 10.0;}
@@ -95,9 +98,9 @@ class ManualHRView extends Ui.View {
     	if(shouldShowRepeatIcon && running == false) { repeatIcon.draw(dc); }
     	
     	if(hr_has_connected) {
-    		var x = 184;
-    		var y =  62;
-    		dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_BLACK);
+    		var x = (screenHeight > 230)?150:125;
+    		var y = (screenHeight > 230)?146:135;
+    		dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
     		dc.drawText(x, y, Gfx.FONT_XTINY, "Sensor HR: ", Gfx.TEXT_JUSTIFY_RIGHT);
     		if (measuredHRValue != null) {
     			dc.drawText(x+1, y, Gfx.FONT_XTINY, measuredHRValue.format("%.0d") , Gfx.TEXT_JUSTIFY_LEFT);
@@ -128,9 +131,9 @@ class ManualHRView extends Ui.View {
 	//! callback for HR sensor events
 	function onSensor(sensorInfo) {
         if (sensorInfo.heartRate != null && !hr_has_connected) {
-            if (Attention has :playTone) {
-                Attention.playTone(Attention.TONE_KEY);
-            }
+            //if (Attention has :playTone) {
+            //    Attention.playTone(Attention.TONE_KEY);
+            //}
             Attention.vibrate(vibForHRconnect);
             hr_has_connected = true;
         }

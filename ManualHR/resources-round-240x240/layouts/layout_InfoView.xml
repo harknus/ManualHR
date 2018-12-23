@@ -1,0 +1,11 @@
+<layout id="InfoLayout">
+<!-- layout for 240x240 fenix 5 plus and Forerunner 645 etc -->
+	<bitmap id="InfoViewIllustration" x="0" y="0" filename="infoView_240.png" />
+
+	<label id="InfoZero" x="26" y="121" text="@Strings.InfoCountZero" font="Gfx.FONT_SYSTEM_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+	<label id="InfoOne" x="77" y="121" text="@Strings.InfoCountOne" font="Gfx.FONT_SYSTEM_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+	<label id="InfoTwo" x="130" y="121" text="@Strings.InfoCountTwo" font="Gfx.FONT_SYSTEM_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+	
+	<label id="infoCountLessOne" x="176" y="121" text="@Strings.infoCountNrLessOne" font="Gfx.FONT_SYSTEM_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_LEFT" />
+	<label id="infoCount" x="220" y="121" text="@Strings.infoCountNr" font="Gfx.FONT_SYSTEM_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_RIGHT" />
+</layout>

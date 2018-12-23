@@ -81,14 +81,12 @@ class Histogram {
 	//! function draw(dc) 
 	//! Draws the histogram in the specified drawing context (dc) 
 	//! using the data provided by the data provider 
-	function draw(dc) {
+	//! x1, y1, x2, y2 specifies the rectangle in which the Histogram 
+	//! will be drawn, need to be integers. 
+	//! Fenix3: (x1, y1, x2, y2) = (25, 70, 195, 160)
+	
+	function draw(dc, x1, y1, x2, y2) {
 		dc.setPenWidth(1);
-		
-		//Parameters for Fenix3
-		var x1 = 25;
-		var y1 = 70;
-		var x2 = 195;
-		var y2 = 160;
 		
 		var maxValue = getMaxCount();
 		var yScale = (maxValue == 0)? 1 : (y2-y1)/maxValue;
@@ -105,9 +103,10 @@ class Histogram {
 		var hrTools = new HRTools();
 		
 		dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
-		text(dc, 109, 20, Gfx.FONT_TINY, "Histogram");
-		text(dc, 109, 40, Gfx.FONT_XTINY, "Resting HR: " + restHR + " bpm" );
-		text(dc, 109, 55, Gfx.FONT_XTINY, hrTools.getAssessmentForRestingHR(restHR, age, gender) );
+		var center = dc.getWidth()/2;
+		text(dc, center, 20, Gfx.FONT_TINY, "Histogram");
+		text(dc, center, 42, Gfx.FONT_XTINY, "Resting HR: " + restHR + " bpm" );
+		text(dc, center, 42+Gfx.getFontHeight(Gfx.FONT_XTINY)-3, Gfx.FONT_XTINY, hrTools.getAssessmentForRestingHR(restHR, age, gender) );
 		
 		
 		//Want to show 7 or 6 labels or less in total

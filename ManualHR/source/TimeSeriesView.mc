@@ -12,10 +12,24 @@ class TimeSeriesView extends Ui.View {
 	hidden const sample_color = Gfx.COLOR_RED;
 	hidden const bg_color = Gfx.COLOR_BLACK;
 	
+	hidden var x1;
+	hidden var y1;
+	hidden var x2;
+	hidden var y2;
+	hidden var screenHeight;
+	
 	function initialize() {	
 		if (history != null && history.getHasData()) { 
 			data = history.getTimeSamples();
 			nrSamples = data.size(); 
+			
+			// (x1, y1, x2, y2) = (15, 70, 195, 160) 218x218
+			screenHeight = System.getDeviceSettings().screenHeight;
+			x1 = 15;
+			y1 = 75;
+			x2 = screenHeight - x1 + 10; // Should be a bit off center since the graph goes further to the left
+			y2 = screenHeight - y1 + 12; // but a bit down in the screen
+
 		}
         View.initialize();
     }
@@ -41,17 +55,12 @@ class TimeSeriesView extends Ui.View {
         	dc.clear();
         	
         	// draw the graph
-        	dc.setPenWidth(1);
-		
-			//Parameters for Fenix3
-			var x1 = 15; // 25
-			var y1 = 70;
-			var x2 = 195;
-			var y2 = 160;
+        	var penWidth = (screenHeight>230)?2:1;
+        	dc.setPenWidth(penWidth);
         	
         	dc.setColor(text_color, Gfx.COLOR_TRANSPARENT);
-			text(dc, 109, 30, Gfx.FONT_TINY, "Latest " + (nrSamples-1));
-			text(dc, 109, 50, Gfx.FONT_TINY, "HR measurements");
+			text(dc, screenHeight/2, 30, Gfx.FONT_TINY, "Latest " + (nrSamples-1));
+			text(dc, screenHeight/2, 50, Gfx.FONT_TINY, "HR measurements");
 			
 			//Draw the axes
 			//dc.setColor(line_color, Gfx.COLOR_TRANSPARENT);
@@ -84,8 +93,10 @@ class TimeSeriesView extends Ui.View {
 	        		dc.drawLine(x,y,xNxt,yNxt);
         		}
 				if (i != 0) { // first data point is just for showing history
-					drawSquareAtCenter(dc,x,y);
-					var yText = (i%2==0)? y-10 : y+8;
+					//drawSquareAtCenter(dc,x,y);
+					drawCirlceAtCenter(dc,x,y, penWidth*2);
+					var fontHeight = Gfx.getFontHeight(Gfx.FONT_XTINY);
+					var yText = (i%2==0)? y-fontHeight/2 - 2: y+fontHeight/2;//y-10 : y+8;
 					text(dc, x, yText, Gfx.FONT_XTINY, data[i]);
 				}
 			}
@@ -108,6 +119,11 @@ class TimeSeriesView extends Ui.View {
     		if (data[i] < retval) {retval = data[i];}
     	}
     	return retval;
+    }
+    
+    hidden function drawCirlceAtCenter(dc, x, y, radius){
+    	dc.setColor(sample_color, Gfx.COLOR_TRANSPARENT);
+    	dc.fillCircle(x, y, radius);
     }
     
     hidden function drawSquareAtCenter(dc,x,y) {

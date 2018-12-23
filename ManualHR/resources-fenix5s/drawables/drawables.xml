@@ -1,0 +1,7 @@
+<drawables>
+    <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+    <!-- <bitmap id="SaveIcon" filename="../../resources/drawables/save_icon.png" />
+   	<bitmap id="RepeatIcon" filename="../../resources/drawables/repeat_icon.png" /> 
+   	<bitmap id="MenuIcon" filename="../../resources/drawables/menu_icon.png" />
+   	 -->
+</drawables>

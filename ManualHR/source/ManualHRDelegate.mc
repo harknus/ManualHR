@@ -2,6 +2,8 @@ using Toybox.WatchUi as Ui;
 using Toybox.System as Sys;
 using Toybox.Time as Tme;
 using Toybox.Application as App;
+using Toybox.Timer;
+using Toybox.Attention;
 
 class ManualHRDelegate extends Ui.BehaviorDelegate {
     

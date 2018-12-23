@@ -12,6 +12,11 @@ class HistogramView extends Ui.View {
 	hidden var userGender;
 	hidden var userAge;
 	
+	hidden var x1;
+	hidden var y1;
+	hidden var x2;
+	hidden var y2;
+	
 	hidden var menuIcon; 
 	
 	function initialize() {	
@@ -30,6 +35,13 @@ class HistogramView extends Ui.View {
 			//Sys.println("gender: " + userGender + " age: " + userAge);
 			
 			histogram = new Histogram(history, nrOfBins, userGender, userAge);
+			
+			// (x1, y1, x2, y2) = (25, 70, 195, 160) 218x218
+			var screenHeight = System.getDeviceSettings().screenHeight;
+			x1 = 25;
+			y1 = screenHeight/3;
+			x2 = screenHeight - x1; // Should be centered
+			y2 = screenHeight - y1 + 12; // but a bit down in the screen
 		}
         View.initialize();
     }
@@ -69,7 +81,8 @@ class HistogramView extends Ui.View {
     //! Load your resources here
     function onLayout(dc) {
        setLayout(Rez.Layouts.HistoryLayout(dc));
-       menuIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.MenuIcon, :locX=>6, :locY=>100} );
+       menuIcon = new Ui.Bitmap({:rezId=>Rez.Drawables.MenuIcon, :locX=>6, :locY=>dc.getHeight()/2-9} ); // 100
+        
     }
 
 	//! Called when this View is brought to the foreground. Restore
@@ -87,15 +100,17 @@ class HistogramView extends Ui.View {
         	dc.clear();
     		
     		// Here we draw the graph
-    		histogram.draw(dc);
+    		histogram.draw(dc, x1, y1, x2, y2);
     		
     		if (nrOfBins > 1) {
         		//Draw down arrow
-        		self.drawArrow(dc, 109, 213, 5, false);
+        		var arrowHeight = (dc.getWidth()>230)?8:5;
+        		self.drawArrow(dc, dc.getWidth()/2, dc.getHeight()-3, arrowHeight, false);
 	        }
 	        if (nrOfBins < maxNrOfBins) {
 	        	//Draw up arrow
-        		self.drawArrow(dc, 109, 5, 5, true);
+	        	var arrowHeight = (dc.getWidth()>230)?8:5;
+        		self.drawArrow(dc, dc.getWidth()/2, 3, arrowHeight, true);
 	        }
 	        
 	        //Draw the menu icon
