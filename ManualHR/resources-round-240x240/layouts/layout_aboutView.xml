@@ -1,0 +1,4 @@
+<layout id="AboutViewLayout">   
+<!-- About view Fenix 5, Forerunner 645, 240x240 px --> 
+    <bitmap id="AboutViewIllustration" x="0" y="0" filename="aboutView_240.png" />    
+</layout>
