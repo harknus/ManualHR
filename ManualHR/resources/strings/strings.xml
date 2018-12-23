@@ -61,14 +61,13 @@
     <string id="NumberPickerTitle">Number of bins for histogram</string>
 
 	<string id="AboutTitle">About</string>
-	<string id="AboutText">Manual HR may use code 
-	from HR Chart (available on 
-	GitHub) by Simon MacMullen.
-	The assessment of resting HR is 
-	based on data from Topend Sports
-	www.topendsports.com/testing/
-	heart-rate-resting-faq.htm
-	 </string>
+	<string id="AboutText1">Manual HR may use code</string>
+	<string id="AboutText2">from HR Chart (available on</string>
+	<string id="AboutText3">GitHub) by Simon MacMullen.</string>
+	<string id="AboutText4">The assessment of resting HR is</string>
+	<string id="AboutText5">based on data from Topend Sports</string>
+	<string id="AboutText6">www.topendsports.com/testing/</string>
+	<string id="AboutText7">heart-rate-resting-faq.htm</string>
 
 
 </strings>

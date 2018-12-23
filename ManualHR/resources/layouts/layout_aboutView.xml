@@ -1,3 +1,11 @@
 <layout id="AboutViewLayout">    
-     <bitmap id="AboutViewIllustration" x="0" y="0" filename="aboutView_218.png" /> 
+<!-- For Fenix 3 et al - since loading a full screen image causes out of memory issues -->
+    <label id="Atitle" x="center" y="15" text="@Strings.AboutTitle" font="Gfx.FONT_TINY" color="Gfx.COLOR_RED" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="Aline1" x="center" y="40" text="@Strings.AboutText1" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="Aline2" x="center" y="55" text="@Strings.AboutText2" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="Aline3" x="center" y="70" text="@Strings.AboutText3" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="Aline4" x="center" y="85" text="@Strings.AboutText4" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="Aline5" x="center" y="100" text="@Strings.AboutText5" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="Aline6" x="center" y="115" text="@Strings.AboutText6" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" />
+    <label id="Aline7" x="center" y="130" text="@Strings.AboutText7" font="Gfx.FONT_XTINY" color="Gfx.COLOR_WHITE" justification="Gfx.TEXT_JUSTIFY_CENTER" /> 
 </layout>
